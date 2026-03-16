@@ -4,114 +4,174 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Real Price of Vegetables — Crooked Farmz</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
 
 <script>
 /* ============================================================
-   CROOKED FARMZ — THE REAL PRICE OF VEGETABLES
+   CROOKED FARMZ — THE REAL PRICE OF VEGETABLES  v2
    CONFIG BLOCK — edit everything here, touch nothing else
+
+   HTML FORMATTING in any field:
+     Bold:        <strong>your text</strong>
+     Italic:      <em>your text</em>
+     Underline:   <u>your text</u>
+     Line break:  <br>
+     Combined:    <strong><em>bold italic</em></strong>
    ============================================================ */
 
 const CONFIG = {
 
-  /* ── BRANDING ─────────────────────────────────────────── */
-  logoUrl: "https://crookedfarmz.github.io/real-price/logo.png",
-  logoAlt: "Crooked Farmz",
-  logoFallbackText: "Crooked Farmz",  // shown if image fails to load
+  /* ── IMAGES ────────────────────────────────────────────────
+     Upload images to your GitHub repo and set URLs here.
+     Hero: wide crop, ideally 1400×600px or similar landscape.
+     Section image: appears before the Fukuoka section, 900×400px works well.
+     Logo: appears at bottom of page above footer.
+  ──────────────────────────────────────────────────────────── */
+  heroImageUrl:    "https://crookedfarmz.github.io/real-price/hero.jpg",
+  heroImageAlt:    "Crooked Farmz — East York microfarm",
+  sectionImageUrl: "https://crookedfarmz.github.io/real-price/section-divider.jpg",
+  sectionImageAlt: "Crooked Farmz growing beds",
+  logoUrl:         "https://crookedfarmz.github.io/real-price/logo.png",
+  logoAlt:         "Crooked Farmz",
+  logoFallback:    "Crooked Farmz",
 
-  /* ── MASTHEAD ─────────────────────────────────────────── */
-  eyebrow: "2026 Vegetable CSA · Toronto",
-  headline: "The Real Price\nof Vegetables",   // \n = line break
-  deck: "Yes, our CSA costs more at the checkout.\nHere's what that actually means.",
+  /* ── SECTION NAVIGATION LABELS ─────────────────────────────
+     Five sections. Label and colour for each.
+     Colours follow the CSA seasonal palette.
+  ──────────────────────────────────────────────────────────── */
+  sections: [
+    { id:"s-intro",    num:1, label:"Introduction",    color:"#4A7C25" },
+    { id:"s-app",      num:2, label:"The Calculator",  color:"#2D5016" },
+    { id:"s-results",  num:3, label:"Your Numbers",    color:"#C8A96E" },
+    { id:"s-cta",      num:4, label:"Join the CSA",    color:"#8B3A1A" },
+    { id:"s-argument", num:5, label:"The Science",     color:"#1C1208" }
+  ],
 
-  /* ── HONEST PREMISE ───────────────────────────────────── */
-  premiseHTML: `<strong>Let's be honest with each other.</strong> A comparable weekly haul of vegetables at the supermarket costs roughly $30–40. Our weekly CSA farm share is $49.95 a box. We're not going to pretend otherwise. What we're asking is that you price the whole picture — including what you spend to make up for what industrial food doesn't give you. Try it out - adjust the numbers below to match your household expenses. See what you find.`,
+  /* ── MASTHEAD ───────────────────────────────────────────── */
+  eyebrow:  "2026 Vegetable CSA · Toronto",
+  headline: "The Real Price<br>of Vegetables",
+  deck:     "Yes, our CSA costs more at the checkout.<br>Here's what that actually means.",
 
-  /* ── SLIDER ───────────────────────────────────────────── */
-  sliderLabel: "What you spend at the supermarket for a comparable weekly haul",
+  /* ── HONEST PREMISE ─────────────────────────────────────── */
+  premiseHTML: `<strong>Let's be honest with each other.</strong> A comparable weekly haul of vegetables at Metro or Loblaws costs roughly $30–40. Our CSA is $49.95 a box. We're not going to pretend otherwise. What we're asking is that you price the whole picture — including what you spend to make up for what industrial food doesn't give you. Adjust the numbers below to match your household. See what you find.`,
+
+  /* ── SLIDER ─────────────────────────────────────────────── */
+  sliderLabel:    "What you spend at Metro / Loblaws / Sobeys for a comparable weekly haul",
   sliderFootnote: "Statistics Canada 2023: average Toronto household spends ~$35–45/week on fresh produce. Adjust to your reality.",
-  sliderMin: 25,
-  sliderMax: 55,
+  sliderMin:     25,
+  sliderMax:     55,
   sliderDefault: 35,
 
-  /* ── TOGGLE ITEMS ─────────────────────────────────────── */
-  // annual = estimated household annual spend in CAD
-  // pct = percentage attributed to dietary quality (your defensible claim)
-  // on = true means checked by default
+  /* ── TOGGLE ITEMS (with dollar values) ─────────────────────
+     annual = estimated household annual spend in CAD
+     pct    = % attributed to dietary quality
+     on     = true means checked by default
+     locked = true means cannot be toggled off
+  ──────────────────────────────────────────────────────────── */
   addons: [
     {
       id: "supps",
-      name: "Vitamins & dietary supplements",
-      detail: "D, Mg, B12, probiotics, zinc — the nutrients most depleted by industrial soil management practices.",
+      name: "Vitamins &amp; dietary supplements",
+      detail: "D, Mg, B12, probiotics, zinc — the nutrients most depleted by industrial soil management. Canadians spend <strong>$3.4 billion/year</strong> on supplements, largely compensating for what nutrient-dense food used to provide on its own.",
       annual: 310,
       pct: 55,
       source: "Industry 2024",
-      on: true
+      on: true,
+      locked: false
     },
     {
       id: "otc",
       name: "OTC non-prescribed medicines",
-      detail: "Digestive, immune, and pain/inflammation products — the categories most linked to food quality in one's diet.",
+      detail: "Digestive, immune, and pain/inflammation products — the categories most directly linked to diet quality. <em>OECD data: Canadians spend ~$95/person/year on non-prescribed medicines.</em>",
       annual: 95,
       pct: 40,
       source: "OECD 2021",
-      on: true
+      on: true,
+      locked: false
     },
     {
       id: "dig",
-      name: "Digestive aids & antacids",
-      detail: "Gut microbiome health is directly upstream of produce quality and soil microbial diversity.",
+      name: "Digestive aids &amp; antacids",
+      detail: "Gut microbiome health is directly upstream of produce quality and soil microbial diversity. A compromised gut microbiome is partly a consequence of a diet that never received the live microbial diversity that <strong>healthy, soil-grown food carries</strong>.",
       annual: 100,
       pct: 60,
       source: "Market est.",
-      on: true
+      on: true,
+      locked: false
     }
   ],
 
-  /* ── THE NUMBER CALLOUT ───────────────────────────────── */
-  numberLabel: "Your real weekly premium for a Crooked Farmz farm share",
-  // Shown when full-cost conventional > CF AND raw premium ≤ $10/wk:
-  descLow: "That's your real weekly saving over the full-cost conventional path — on top of fresher, more nutritious food grown by a farmer who knows your name.",
-  latteLine: "Less than a latte. More than you might think.",
-  // Shown when full-cost conventional > CF AND raw premium > $10/wk:
-  descHigh: "That's what full-cost accounting saves you over the conventional path once you include what industrial food costs you downstream.",
-  // Shown when conventional is still cheaper even with add-ons:
-  descWarn: "Your real weekly premium for Crooked Farmz over the conventional full-cost path. Toggle more categories above to see the fuller picture.",
+  /* ── QUALITATIVE TOGGLES (no dollar value) ──────────────────
+     These toggle on/off but don't change the number.
+     They add weight to the argument, not the math.
+     locked = true means cannot be toggled off.
+  ──────────────────────────────────────────────────────────── */
+  qualToggles: [
+    {
+      id: "gutmental",
+      name: "Gut health &amp; mental wellbeing",
+      detail: `The gut-brain axis is not a metaphor. Serotonin, dopamine precursors, the microbiome's influence on mood regulation — a gut fed on depleted food is not the same as a gut fed on living food. The rising costs of mental health treatment in Canada are not unrelated to what we're feeding ourselves.<br><br>Add to this the compounding costs of <strong>chronic fatigue, brain fog, and systemic inflammation</strong> — conditions that cost hours of productivity, quality of life, and presence with family. These are the hardest costs to quantify. They are not free.`,
+      on: true,
+      locked: false
+    },
+    {
+      id: "environment",
+      name: "Environmental cost of industrial food",
+      detail: `Industrial agriculture externalizes its true costs onto the commons — soil carbon depletion, synthetic fertilizer runoff, dead zones in waterways, biodiversity collapse, greenhouse gas emissions from tillage. <strong>These costs are real. They are not priced into the $3.99 tomato.</strong><br><br>When Crooked Farmz grows food in living soil using compost tea, cover crops, and no-dig practices, it sequesters carbon, rebuilds microbial diversity, and protects the watershed. That value is not reflected in our price either — but it belongs in any honest accounting of what food actually costs.<br><br><u>This category cannot be toggled off. The environmental cost of industrial food exists whether or not we choose to see it.</u>`,
+      on: true,
+      locked: true
+    }
+  ],
 
-  /* ── CTA BLOCK ────────────────────────────────────────── */
-  ctaPre: "2026 CSA — limited shares available",
-  ctaMain: "Thursday mornings. Harvested that day.\nEast York pickup and delivery.",
-  ctaSub: "20 weeks · $999 full share · $525 alternating share",
-  ctaButtonText: "Visit Crooked Farmz →",
-  ctaButtonUrl: "https://crookedfarmz.net",
+  /* ── THE NUMBER CALLOUT ──────────────────────────────────── */
+  numberLabelPremium: "Your real weekly premium for a Crooked Farmz farm share",
+  numberLabelSaving:  "Your weekly saving with a Crooked Farmz farm share",
+  descPremiumLow:  "That's your real weekly premium once you account for what industrial food costs you downstream — supplements, medicines, digestive aids. <em>Less than a latte. For food that works as medicine.</em>",
+  descPremiumHigh: "That's your real weekly premium for Crooked Farmz over the full-cost conventional path.",
+  descSaving:      "<strong>At your grocery spend level, Crooked Farmz is actually cheaper</strong> than the full-cost conventional path — once you account for what industrial food costs you downstream. The fresh, regenerative choice is also the economical one.",
+  latteLine:       "Less than a latte. For food that works as medicine.",
 
-  /* ── ARGUMENT SECTION ─────────────────────────────────── */
+  /* ── SHARE CARD ─────────────────────────────────────────── */
+  shareCardTitle:   "The Real Price of Vegetables",
+  shareUrl:         "https://crookedfarmz.github.io/real-price/",
+  shareText:        "I just ran the full-cost comparison between a Crooked Farmz CSA and conventional grocery shopping. The result surprised me.",
+
+  /* ── CTA BLOCK ───────────────────────────────────────────── */
+  ctaPre:        "2026 CSA — limited shares available",
+  ctaMain:       "Thursday mornings. Harvested that day.<br>East York pickup and delivery.",
+  ctaSub:        "20 weeks · $999 full share · $525 alternating share",
+  ctaButtonText: "Subscribe for 2026 →",
+  ctaButtonUrl:  "https://crookedfarmz.localline.ca",
+  ctaSecondaryText: "Learn more about Crooked Farmz →",
+  ctaSecondaryUrl:  "https://crookedfarmz.net",
+
+  /* ── ARGUMENT SECTION ────────────────────────────────────── */
   argumentHeadline: "Food and medicine are not two different things.",
-
-  fukuokaQuote: "Chemically grown vegetables may be eaten for food, but they cannot be used as medicine.",
-  fukuokaAttrib: "Masanobu Fukuoka, The One-Straw Revolution, 1978",
+  fukuokaQuote:  "Chemically grown vegetables may be eaten for food, but they cannot be used as medicine.",
+  fukuokaAttrib: "Masanobu Fukuoka, <em>The One-Straw Revolution</em>, 1978",
 
   argumentParagraphs: [
-    `Fukuoka wasn't being poetic. He was being precise. A vegetable grown in living, microbially-rich soil is structurally different from one grown in chemically-managed dirt. The plant's root system communicates with the soil microbiome through rhizophagy — actively drawing up not just nitrogen and phosphorus, but the full chain of secondary metabolites, trace minerals, and signalling compounds that make food function as medicine in the body.`,
+    `Fukuoka wasn't being poetic. He was being precise. A vegetable grown in living, microbially-rich soil is structurally different from one grown in chemically-managed dirt. The plant's root system communicates with the soil microbiome through <strong>rhizophagy</strong> — actively drawing up not just nitrogen and phosphorus, but the full chain of secondary metabolites, trace minerals, and signalling compounds that make food function as medicine in the body.`,
 
-    `When you disrupt that communication network with synthetic fertilizers and broad-spectrum pesticides, you get a vegetable that looks right. It has roughly the correct amount of water and carbohydrate. But it is missing the invisible library of compounds the plant was supposed to assemble. You ate food. You did not receive medicine.`,
+    `When you disrupt that communication network with synthetic fertilizers and broad-spectrum pesticides, you get a vegetable that looks right. It has roughly the correct amount of water and carbohydrate. But it is missing the invisible library of compounds the plant was supposed to assemble. <em>You ate food. You did not receive medicine.</em>`,
 
-    `So where does the rest of the cost go? It goes to the supplement aisle. It goes to the antacids. It goes to the OTC medicines compensating for a gut microbiome that never received the live microbial diversity that soil-grown food carries. The most commonly purchased supplements in Canada — vitamin D, magnesium, B12, probiotics, zinc — are precisely the nutrients most depleted by industrial soil management.`,
+    `So where does the rest of the cost go? It goes to the supplement aisle. It goes to the antacids. It goes to the OTC medicines compensating for a gut microbiome that never received the live microbial diversity that soil-grown food carries. The most commonly purchased supplements in Canada — vitamin D, magnesium, B12, probiotics, zinc — are <u>precisely the nutrients most depleted by industrial soil management</u>.`,
 
-    `The tool above doesn't claim that all of your supplement spending is caused by industrial food. It claims a defensible share of it is. Adjust the numbers to match your household. The argument stands or falls on your own arithmetic.`,
+    `The gut-brain axis runs deeper still. Serotonin — the neurotransmitter most associated with mood regulation — is produced overwhelmingly in the gut, not the brain. A gut microbiome impoverished by industrial food is a gut microbiome producing less of what the brain needs. The supplement industry has noticed: probiotic sales in Canada grew 18% in 2023 alone. We are paying to repair downstream what was broken upstream.`,
+
+    `The tool above doesn't claim that all of your supplement spending is caused by industrial food. It claims a <strong>defensible share</strong> of it is. Adjust the numbers to match your household. The argument stands or falls on your own arithmetic.`,
 
     `What we've found, running the numbers honestly: once you account for that hidden receipt, the real weekly premium for Crooked Farmz vegetables lands around <strong>$7.45</strong> — at typical household assumptions. That's the price of flavour, freshness, a farm in your city, and a small but real act of climate accountability every Thursday. We think that's fair. We'll let you decide.`
   ],
 
-  sourcesHTML: `<strong>Sources:</strong> Statistics Canada Survey of Household Spending 2023 (household health care spending, non-prescribed medicines). Grand View Research 2024 (Canadian dietary supplements market ÷ 14.4M households ≈ $310 CAD/household/yr). OECD 2021 (OTC pharmaceutical spend per capita, converted CAD 2024). CIHI/CUPE 2024 (average Canadian household prescription drug and private health premium spending). Attribution rates are conservative estimates from published research linking soil health, nutrient density, gut microbiome diversity, and preventable chronic disease. This is a full-cost accounting framework — not a medical claim.`,
+  sourcesHTML: `<strong>Sources:</strong> Statistics Canada Survey of Household Spending 2023 (household health care spending; non-prescribed medicines +29.6% category growth). Grand View Research 2024 (Canadian dietary supplements market ÷ 14.4M households ≈ $310 CAD/household/yr). OECD 2021 (OTC pharmaceutical spend per capita, converted CAD 2024). CIHI/CUPE 2024 (average Canadian household prescription drug and private health premium spending). Attribution rates are conservative estimates from published research linking soil health, nutrient density, gut microbiome diversity, and preventable chronic disease burden. <u>This is a full-cost accounting framework — not a medical claim.</u>`,
 
-  /* ── FOOTER ───────────────────────────────────────────── */
+  /* ── FOOTER ──────────────────────────────────────────────── */
   footerHTML: `Crooked Farmz · East York · Toronto · Treaty 13 territory · Dish With One Spoon wampum<br>
     <a href="https://crookedfarmz.net">crookedfarmz.net</a> · info@crookedfarmz.net · 416.669.1997<br>
     <em>We must heal the soil. It's that simple.</em>`
 
 };
-
 /* ============================================================
    END CONFIG — do not edit below this line
    ============================================================ */
@@ -127,201 +187,402 @@ const CONFIG = {
   --bd:#C4B99A;
   --serif:'Playfair Display',Georgia,serif;
   --body:'Source Serif 4',Georgia,serif;
+  --nav-w:160px;
 }
-body{font-family:var(--body);background:var(--bg);color:var(--tx);line-height:1.7;padding:0;margin:0}
-.pw{max-width:700px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
 
-/* logo */
-.logo-bar{text-align:center;margin-bottom:0.75rem;padding-bottom:1.25rem;border-bottom:1px solid var(--bd)}
-.logo-bar img{max-height:200px;max-width:500px;object-fit:contain}
-.logo-fallback{font-family:var(--serif);font-size:1.4rem;font-weight:600;color:var(--gd);display:none}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--tx);line-height:1.75;padding:0;margin:0;font-size:17px}
 
-/* masthead */
-.mast{text-align:center;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1.5px solid var(--bd)}
-.eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gm);font-weight:600;margin-bottom:.6rem;display:block}
-.mast h1{font-family:var(--serif);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:600;line-height:1.15;color:var(--tx);margin-bottom:.6rem}
-.deck{font-size:1rem;font-style:italic;color:var(--txm);max-width:480px;margin:0 auto;line-height:1.65}
+/* ── SIDEBAR NAV ── */
+.sidenav{
+  position:fixed;left:0;top:50%;transform:translateY(-50%);
+  width:var(--nav-w);z-index:100;
+  padding:1rem 0;
+  display:flex;flex-direction:column;gap:4px;
+}
+.snav-item{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 12px 6px 0;
+  cursor:pointer;
+  text-decoration:none;
+  opacity:0.45;
+  transition:opacity 0.2s;
+}
+.snav-item:hover{opacity:0.85}
+.snav-item.active{opacity:1}
+.snav-bar{width:4px;height:32px;border-radius:0 3px 3px 0;flex-shrink:0;transition:width 0.2s}
+.snav-item.active .snav-bar{width:6px}
+.snav-label{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--tx);line-height:1.2;white-space:nowrap}
+.snav-num{font-family:var(--serif);font-size:11px;color:var(--txmu);margin-right:1px}
 
-/* premise */
-.premise{border-left:3px solid var(--st);padding:.8rem 1rem;margin-bottom:1.75rem;background:var(--stl);border-radius:0 6px 6px 0}
-.premise p{font-size:.9rem;color:var(--txm);line-height:1.7;font-style:italic}
+/* mobile: top progress bar */
+.mobile-nav{
+  display:none;
+  position:fixed;top:0;left:0;width:100%;height:5px;
+  z-index:200;flex-direction:row;
+}
+.mob-seg{flex:1;opacity:0.35;transition:opacity 0.2s}
+.mob-seg.active{opacity:1}
+
+/* ── MAIN CONTENT ── */
+.pw{
+  max-width:700px;
+  margin:0 auto 0 var(--nav-w);
+  padding:0 1.5rem 4rem;
+}
+
+/* ── HERO IMAGE ── */
+.hero-img{
+  width:calc(100% + 3rem);
+  margin-left:-1.5rem;
+  display:block;
+  max-height:420px;
+  object-fit:cover;
+  object-position:center;
+}
+.hero-img-placeholder{
+  width:calc(100% + 3rem);
+  margin-left:-1.5rem;
+  height:300px;
+  background:linear-gradient(135deg,#2D5016 0%,#4A7C25 50%,#C8A96E 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-img-placeholder span{font-family:var(--serif);font-size:1rem;color:rgba(255,255,255,0.6);font-style:italic}
+
+/* ── SECTION ANCHORS ── */
+.section-anchor{
+  padding-top:2.5rem;
+  margin-top:0;
+}
+
+/* ── SECTION LABEL STRIP ── */
+.section-strip{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:1.75rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid var(--bd);
+}
+.strip-bar{width:5px;height:44px;border-radius:3px;flex-shrink:0}
+.strip-num{font-family:var(--serif);font-size:2rem;font-weight:600;color:var(--bd);line-height:1;flex-shrink:0}
+.strip-label{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--txmu);line-height:1.3}
+.strip-title{font-family:var(--serif);font-size:1.05rem;font-weight:600;color:var(--tx);line-height:1.2;margin-top:1px}
+
+/* ── MASTHEAD ── */
+.mast{text-align:center;margin-bottom:2rem}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gm);font-weight:600;margin-bottom:.75rem;display:block}
+.mast h1{font-family:var(--serif);font-size:clamp(2rem,5vw,3rem);font-weight:600;line-height:1.15;color:var(--tx);margin-bottom:.75rem}
+.deck{font-size:1.1rem;font-style:italic;color:var(--txm);max-width:480px;margin:0 auto;line-height:1.65}
+
+/* ── PREMISE ── */
+.premise{border-left:3px solid var(--st);padding:1rem 1.25rem;margin-bottom:2rem;background:var(--stl);border-radius:0 6px 6px 0}
+.premise p{font-size:1rem;color:var(--txm);line-height:1.75;font-style:italic}
 .premise p strong{font-style:normal;font-weight:600;color:var(--tx)}
 
-/* labels */
-.slbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--txmu);font-weight:600;margin-bottom:.5rem;display:block}
+/* ── LABELS ── */
+.slbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--txmu);font-weight:600;margin-bottom:.6rem;display:block}
 
-/* slider */
-.slider-block{margin-bottom:1.5rem}
-.sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.45rem;flex-wrap:wrap;gap:4px}
-.sh .sl{font-size:.88rem;color:var(--tx)}
-.sh .sv{font-family:var(--serif);font-size:1.15rem;font-weight:600;color:var(--gd)}
-input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:var(--bd);border-radius:2px;outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--gd);cursor:pointer;border:2px solid var(--bg);box-shadow:0 1px 4px rgba(0,0,0,.2)}
-input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--gd);cursor:pointer;border:2px solid var(--bg)}
-.sfn{font-size:.75rem;color:var(--txmu);margin-top:.35rem;font-style:italic}
+/* ── SLIDER ── */
+.slider-block{margin-bottom:1.75rem}
+.sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem;flex-wrap:wrap;gap:4px}
+.sh .sl{font-size:1rem;color:var(--tx)}
+.sh .sv{font-family:var(--serif);font-size:1.3rem;font-weight:600;color:var(--gd)}
+input[type=range]{-webkit-appearance:none;width:100%;height:5px;background:var(--bd);border-radius:3px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--gd);cursor:pointer;border:3px solid var(--bg);box-shadow:0 1px 5px rgba(0,0,0,.2)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--gd);cursor:pointer;border:3px solid var(--bg)}
+.sfn{font-size:.85rem;color:var(--txmu);margin-top:.4rem;font-style:italic}
 
-/* toggles */
-.tog-block{margin-bottom:1.75rem}
-.tog-grid{display:flex;flex-direction:column;gap:7px}
-.ti{display:flex;align-items:flex-start;gap:11px;padding:.7rem .9rem;border:1px solid var(--bd);border-radius:6px;background:var(--bgc);cursor:pointer;transition:border-color .15s,background .15s;user-select:none}
-.ti:hover{border-color:var(--gm)}
+/* ── TOGGLE ITEMS ── */
+.tog-section-label{font-size:1rem;color:var(--txm);margin-bottom:.75rem;line-height:1.6}
+.tog-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
+.tog-group-head{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--txmu);font-weight:600;margin:1.25rem 0 .6rem;display:block}
+
+.ti{display:flex;align-items:flex-start;gap:12px;padding:.85rem 1rem;border:1px solid var(--bd);border-radius:6px;background:var(--bgc);cursor:pointer;transition:border-color .15s,background .15s;user-select:none}
+.ti:hover:not(.locked){border-color:var(--gm)}
 .ti.on{border-color:var(--gd);background:#fff}
-.tchk{width:17px;height:17px;border:1.5px solid var(--bd);border-radius:3px;flex-shrink:0;margin-top:3px;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .15s}
-.ti.on .tchk{background:var(--gd);border-color:var(--gd)}
-.tchk svg{opacity:0;transition:opacity .1s}
-.ti.on .tchk svg{opacity:1}
-.tn{font-size:.87rem;font-weight:600;color:var(--tx);line-height:1.3}
-.td{font-size:.75rem;color:var(--txmu);line-height:1.5;margin-top:2px;font-style:italic}
-.ta{margin-left:auto;flex-shrink:0;font-family:var(--serif);font-size:.9rem;font-weight:600;color:var(--txmu);padding-left:8px;transition:color .15s;white-space:nowrap}
-.ti.on .ta{color:var(--ru)}
+.ti.locked{cursor:default}
+.ti.locked-on{border-color:var(--ru);background:#fff3ee;cursor:default}
 
-/* number reveal */
-.nr{border-top:1.5px solid var(--tx);border-bottom:1.5px solid var(--tx);padding:1.5rem 1rem;margin:1.75rem 0;text-align:center}
-.nrlbl{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--txmu);margin-bottom:.4rem;display:block}
-.num{font-family:var(--serif);font-size:clamp(2.8rem,11vw,5rem);font-weight:600;line-height:1;color:var(--gd);display:block;margin-bottom:.4rem;transition:color .3s}
-.num.warn{color:var(--ru)}
-.nrdesc{font-size:.88rem;font-style:italic;color:var(--txm);max-width:400px;margin:0 auto;line-height:1.6}
-.nrlatte{font-size:.8rem;color:var(--txmu);margin-top:.5rem;font-style:italic}
+.tchk{width:18px;height:18px;border:1.5px solid var(--bd);border-radius:3px;flex-shrink:0;margin-top:3px;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .15s}
+.ti.on .tchk{background:var(--gd);border-color:var(--gd)}
+.ti.locked-on .tchk{background:var(--ru);border-color:var(--ru)}
+.tchk svg{opacity:0;transition:opacity .1s}
+.ti.on .tchk svg,.ti.locked-on .tchk svg{opacity:1}
+
+.tn{font-size:.95rem;font-weight:600;color:var(--tx);line-height:1.3}
+.td{font-size:.82rem;color:var(--txmu);line-height:1.55;margin-top:3px}
+.ta{margin-left:auto;flex-shrink:0;font-family:var(--serif);font-size:.95rem;font-weight:600;color:var(--txmu);padding-left:10px;transition:color .15s;white-space:nowrap}
+.ti.on .ta{color:var(--ru)}
+.ta.qualitative{font-size:.75rem;font-style:italic;color:var(--txmu);text-align:right;max-width:90px;line-height:1.3;padding-top:2px}
+.lock-badge{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ru);font-weight:600;margin-top:3px;display:block}
+
+/* ── RESULTS CARD ── */
+.results-card{
+  background:#fff;
+  border:1.5px solid var(--bd);
+  border-radius:10px;
+  overflow:hidden;
+  margin:1.75rem 0;
+  position:relative;
+}
+.results-card-inner{padding:1.5rem}
+
+.nr{border-top:1.5px solid var(--tx);border-bottom:1.5px solid var(--tx);padding:1.75rem 1rem;text-align:center;margin-bottom:1.5rem;background:var(--bg)}
+.nrlbl{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--txmu);margin-bottom:.5rem;display:block}
+.num{font-family:var(--serif);font-size:clamp(3rem,12vw,5.5rem);font-weight:600;line-height:1;color:var(--ru);display:block;margin-bottom:.5rem;transition:color .3s}
+.num.saving{color:var(--gd)}
+.nrdesc{font-size:.95rem;font-style:italic;color:var(--txm);max-width:420px;margin:0 auto;line-height:1.65}
+.nrlatte{font-size:.87rem;color:var(--txmu);margin-top:.6rem;font-style:italic}
 .nrlatte.hidden{display:none}
 
 /* bars */
-.chart-block{margin-bottom:2rem}
-.barchart{display:flex;flex-direction:column;gap:10px}
-.brow{display:flex;align-items:center;gap:8px}
-.brl{font-size:.75rem;color:var(--txm);width:110px;flex-shrink:0;line-height:1.3}
-.btrack{flex:1;height:26px;background:var(--bgc);border-radius:3px;border:1px solid var(--bd);overflow:hidden}
-.bfill{height:100%;border-radius:3px;transition:width .55s cubic-bezier(.25,.46,.45,.94);display:flex;align-items:center;padding-left:7px;min-width:4px}
+.barchart{display:flex;flex-direction:column;gap:11px;margin-bottom:1rem}
+.brow{display:flex;align-items:center;gap:9px}
+.brl{font-size:.82rem;color:var(--txm);width:115px;flex-shrink:0;line-height:1.3}
+.btrack{flex:1;height:30px;background:var(--bgc);border-radius:3px;border:1px solid var(--bd);overflow:hidden}
+.bfill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.25,.46,.45,.94);display:flex;align-items:center;padding-left:9px;min-width:4px}
 .bfill.cf{background:var(--gd)}
 .bfill.conv{background:var(--st)}
 .bfill.full{background:var(--ru)}
-.bdol{font-size:.73rem;font-weight:600;color:#fff;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,.25)}
-.cleg{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
-.leg{display:flex;align-items:center;gap:5px;font-size:.73rem;color:var(--txmu)}
-.lsq{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.bdol{font-size:.78rem;font-weight:600;color:#fff;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.cleg{display:flex;gap:14px;flex-wrap:wrap;margin-top:9px}
+.leg{display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--txmu)}
+.lsq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 
 /* table */
-.tbl-block{margin-bottom:2rem}
-.bt{width:100%;border-collapse:collapse;font-size:.8rem}
-.bt th{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--txmu);font-weight:600;padding:4px 7px;border-bottom:1px solid var(--bd);text-align:left}
-.bt td{padding:6px 7px;border-bottom:1px solid var(--bgc);color:var(--txm);vertical-align:top;line-height:1.4}
+.bt{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:1.25rem}
+.bt th{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--txmu);font-weight:600;padding:5px 8px;border-bottom:1px solid var(--bd);text-align:left}
+.bt td{padding:7px 8px;border-bottom:1px solid var(--bgc);color:var(--txm);vertical-align:top;line-height:1.4}
 .bt td.amt{font-family:var(--serif);font-weight:600;color:var(--tx);white-space:nowrap}
-.bt tr.trow td{border-top:1px solid var(--bd);border-bottom:none;font-weight:600;color:var(--tx);padding-top:8px}
-.bt tr.crow td{color:var(--gd);font-weight:600;font-style:italic;border-bottom:none}
-.bt tr.off td{opacity:.38}
+.bt tr.trow td{border-top:1.5px solid var(--bd);border-bottom:none;font-weight:600;color:var(--tx);padding-top:9px}
+.bt tr.crow{background:var(--gd)}
+.bt tr.crow td{color:#fff;font-weight:600;font-family:var(--serif);border-bottom:none;padding-top:9px;padding-bottom:9px}
+.bt tr.crow td.amt{color:#fff}
+.bt tr.off td{opacity:.35}
 
-/* cta */
-.cta{text-align:center;padding:1.75rem 1.25rem;background:var(--gd);border-radius:8px;margin-bottom:2rem}
-.cta-pre{font-size:9px;color:#a8c97f;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5rem}
-.cta-main{font-family:var(--serif);font-size:clamp(1.1rem,3.5vw,1.5rem);color:#fff;margin-bottom:.4rem;line-height:1.3;font-style:italic}
-.cta-sub{font-size:.8rem;color:#a8c97f;margin-bottom:1.1rem;font-style:italic}
-.cta-btn{display:inline-block;background:var(--st);color:var(--tx);font-family:var(--body);font-size:.88rem;font-weight:600;letter-spacing:.04em;padding:.7rem 1.75rem;border-radius:4px;text-decoration:none;cursor:pointer;border:none;transition:background .15s}
+/* share buttons */
+.share-bar{
+  display:flex;justify-content:flex-end;gap:8px;
+  padding:.85rem 1rem;
+  border-top:1px solid var(--bgc);
+  background:var(--bgc);
+}
+.share-btn{
+  font-size:.75rem;font-weight:600;
+  padding:6px 14px;border-radius:4px;
+  border:1px solid var(--bd);
+  background:#fff;color:var(--txm);
+  cursor:pointer;display:flex;align-items:center;gap:6px;
+  transition:background .15s,border-color .15s;
+  text-decoration:none;
+  font-family:var(--body);
+}
+.share-btn:hover{background:var(--stl);border-color:var(--st)}
+.share-btn.fb{background:#1877F2;color:#fff;border-color:#1877F2}
+.share-btn.fb:hover{background:#166fe5}
+.share-btn svg{flex-shrink:0}
+
+/* ── SECTION DIVIDER IMAGE ── */
+.divider-img-wrap{
+  margin:2.5rem -1.5rem;
+}
+.divider-img{width:100%;max-height:320px;object-fit:cover;object-position:center;display:block}
+.divider-img-placeholder{
+  width:100%;height:200px;
+  background:linear-gradient(90deg,#1C1208 0%,#2D5016 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.divider-img-placeholder span{font-family:var(--serif);font-size:1rem;color:rgba(255,255,255,0.5);font-style:italic}
+
+/* ── CTA ── */
+.cta{text-align:center;padding:2rem 1.5rem;background:var(--gd);border-radius:8px;margin-bottom:0}
+.cta-pre{font-size:10px;color:#a8c97f;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.6rem}
+.cta-main{font-family:var(--serif);font-size:clamp(1.2rem,3.5vw,1.6rem);color:#fff;margin-bottom:.5rem;line-height:1.3;font-style:italic}
+.cta-sub{font-size:.88rem;color:#a8c97f;margin-bottom:1.25rem;font-style:italic}
+.cta-btn{display:inline-block;background:var(--st);color:var(--tx);font-family:var(--body);font-size:.95rem;font-weight:600;letter-spacing:.04em;padding:.8rem 2rem;border-radius:4px;text-decoration:none;cursor:pointer;border:none;transition:background .15s;margin-bottom:.6rem}
 .cta-btn:hover{background:#ddb95a}
+.cta-sec{display:block;font-size:.82rem;color:#a8c97f;text-decoration:underline;cursor:pointer;margin-top:.5rem}
+.cta-sec:hover{color:#fff}
 
-/* argument */
-.arg{border-top:1.5px solid var(--bd);padding-top:2rem;margin-bottom:1.5rem}
-.arg h2{font-family:var(--serif);font-size:1.35rem;font-weight:600;color:var(--tx);margin-bottom:.85rem;line-height:1.3}
-.arg p{font-size:.9rem;color:var(--txm);line-height:1.8;margin-bottom:1rem}
-.arg blockquote{border-left:3px solid var(--st);padding:.7rem 1rem;margin:1.25rem 0;background:var(--stl);border-radius:0 6px 6px 0}
-.arg blockquote p{font-style:italic;margin-bottom:0;font-size:.88rem}
-.arg blockquote cite{display:block;font-size:.75rem;color:var(--txmu);margin-top:.4rem;font-style:normal}
-.sources{font-size:.73rem;color:var(--txmu);border-top:1px solid var(--bd);padding-top:.85rem;margin-top:1.5rem;line-height:1.6}
+/* ── ARGUMENT ── */
+.arg{padding-top:0}
+.arg h2{font-family:var(--serif);font-size:1.6rem;font-weight:600;color:var(--tx);margin-bottom:1rem;line-height:1.3}
+.arg p{font-size:1rem;color:var(--txm);line-height:1.85;margin-bottom:1.1rem}
+.arg blockquote{border-left:3px solid var(--st);padding:.85rem 1.1rem;margin:1.5rem 0;background:var(--stl);border-radius:0 6px 6px 0}
+.arg blockquote p{font-style:italic;margin-bottom:0;font-size:.97rem}
+.arg blockquote cite{display:block;font-size:.8rem;color:var(--txmu);margin-top:.5rem;font-style:normal}
+.sources{font-size:.78rem;color:var(--txmu);border-top:1px solid var(--bd);padding-top:1rem;margin-top:2rem;line-height:1.65}
 .sources strong{font-weight:600;color:var(--txm)}
 
-/* footer */
-.pgfoot{text-align:center;padding-top:1.5rem;border-top:1px solid var(--bd);font-size:.73rem;color:var(--txmu);font-style:italic;line-height:1.8}
+/* ── LOGO BOTTOM ── */
+.logo-bottom{text-align:center;padding:2rem 0 1.5rem;border-top:1px solid var(--bd);margin-top:2.5rem}
+.logo-bottom img{max-height:80px;max-width:260px;object-fit:contain}
+.logo-fallback-b{font-family:var(--serif);font-size:1.4rem;font-weight:600;color:var(--gd)}
+
+/* ── FOOTER ── */
+.pgfoot{text-align:center;padding-top:1rem;padding-bottom:2rem;font-size:.78rem;color:var(--txmu);font-style:italic;line-height:1.8}
 .pgfoot a{color:var(--gm);text-decoration:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:820px){
+  :root{--nav-w:0px}
+  .sidenav{display:none}
+  .mobile-nav{display:flex}
+  .pw{margin:0 auto;padding-top:10px}
+  body{font-size:16px}
+}
+@media(max-width:480px){
+  .pw{padding:0 1rem 3rem}
+  .brl{width:90px}
+  .results-card-inner{padding:1rem}
+}
 </style>
 </head>
 <body>
+
+<!-- MOBILE PROGRESS BAR -->
+<div class="mobile-nav" id="mobileNav"></div>
+
+<!-- FIXED SIDEBAR NAV -->
+<nav class="sidenav" id="sideNav"></nav>
+
 <div class="pw">
 
-  <!-- LOGO -->
-  <div class="logo-bar">
-    <img id="cflogo" src="" alt="">
-    <div class="logo-fallback" id="logofb"></div>
-  </div>
+  <!-- ══ SECTION 1: INTRODUCTION ══ -->
+  <div class="section-anchor" id="s-intro">
 
-  <!-- MASTHEAD -->
-  <div class="mast">
-    <span class="eyebrow" id="eyebrow"></span>
-    <h1 id="headline"></h1>
-    <p class="deck" id="deck"></p>
-  </div>
+    <!-- Hero image -->
+    <div id="heroWrap"></div>
 
-  <!-- PREMISE -->
-  <div class="premise"><p id="premise"></p></div>
+    <!-- Section strip -->
+    <div class="section-strip" id="strip-1"></div>
 
-  <!-- SLIDER -->
-  <div class="slider-block">
-    <span class="slbl">Your weekly conventional grocery spend on vegetables</span>
-    <div class="sh">
-      <span class="sl" id="sliderLabel"></span>
-      <span class="sv" id="sliderReadout"></span>
+    <!-- Masthead -->
+    <div class="mast">
+      <span class="eyebrow" id="eyebrow"></span>
+      <h1 id="headline"></h1>
+      <p class="deck" id="deck"></p>
     </div>
-    <input type="range" id="weeklySlider">
-    <p class="sfn" id="sliderFn"></p>
-  </div>
 
-  <!-- TOGGLES -->
-  <div class="tog-block">
-    <span class="slbl">What do you spend to compensate for what industrial food doesn't provide?</span>
+    <!-- Premise -->
+    <div class="premise"><p id="premise"></p></div>
+
+  </div><!-- /s-intro -->
+
+  <!-- ══ SECTION 2: THE CALCULATOR ══ -->
+  <div class="section-anchor" id="s-app">
+    <div class="section-strip" id="strip-2"></div>
+
+    <!-- Slider -->
+    <div class="slider-block">
+      <span class="slbl">Step 1 — Set your weekly grocery baseline</span>
+      <div class="sh">
+        <span class="sl" id="sliderLabel"></span>
+        <span class="sv" id="sliderReadout"></span>
+      </div>
+      <input type="range" id="weeklySlider">
+      <p class="sfn" id="sliderFn"></p>
+    </div>
+
+    <!-- Quantitative toggles -->
+    <span class="slbl">Step 2 — Add what you spend to compensate</span>
+    <p class="tog-section-label" id="togIntro"></p>
     <div class="tog-grid" id="togGrid"></div>
-  </div>
 
-  <!-- THE NUMBER -->
-  <div class="nr">
-    <span class="nrlbl" id="nrLabel"></span>
-    <span class="num" id="theNum">—</span>
-    <p class="nrdesc" id="nrDesc"></p>
-    <p class="nrlatte hidden" id="nrLatte"></p>
-  </div>
+    <!-- Qualitative toggles -->
+    <span class="tog-group-head">Step 3 — Consider what can't be priced</span>
+    <div class="tog-grid" id="qualGrid"></div>
 
-  <!-- BARS -->
-  <div class="chart-block">
-    <span class="slbl">20-week season — side by side</span>
-    <div class="barchart">
-      <div class="brow"><div class="brl">Crooked Farmz CSA</div><div class="btrack"><div class="bfill cf" id="bCF" style="width:0%"><span class="bdol" id="lCF"></span></div></div></div>
-      <div class="brow"><div class="brl">Conventional<br><span style="font-size:.7em;font-style:italic">grocery only</span></div><div class="btrack"><div class="bfill conv" id="bConv" style="width:0%"><span class="bdol" id="lConv"></span></div></div></div>
-      <div class="brow"><div class="brl">Conventional<br><span style="font-size:.7em;font-style:italic">full-cost</span></div><div class="btrack"><div class="bfill full" id="bFull" style="width:0%"><span class="bdol" id="lFull"></span></div></div></div>
+  </div><!-- /s-app -->
+
+  <!-- ══ SECTION 3: YOUR NUMBERS ══ -->
+  <div class="section-anchor" id="s-results">
+    <div class="section-strip" id="strip-3"></div>
+
+    <div class="results-card" id="resultsCard">
+      <div class="results-card-inner">
+
+        <!-- The Number -->
+        <div class="nr">
+          <span class="nrlbl" id="nrLabel"></span>
+          <span class="num" id="theNum">—</span>
+          <p class="nrdesc" id="nrDesc"></p>
+          <p class="nrlatte hidden" id="nrLatte"></p>
+        </div>
+
+        <!-- Bars -->
+        <span class="slbl">20-week season — side by side</span>
+        <div class="barchart">
+          <div class="brow"><div class="brl">Crooked Farmz CSA</div><div class="btrack"><div class="bfill cf" id="bCF" style="width:0%"><span class="bdol" id="lCF"></span></div></div></div>
+          <div class="brow"><div class="brl">Conventional<br><span style="font-size:.75em;font-style:italic">grocery only</span></div><div class="btrack"><div class="bfill conv" id="bConv" style="width:0%"><span class="bdol" id="lConv"></span></div></div></div>
+          <div class="brow"><div class="brl">Conventional<br><span style="font-size:.75em;font-style:italic">full-cost</span></div><div class="btrack"><div class="bfill full" id="bFull" style="width:0%"><span class="bdol" id="lFull"></span></div></div></div>
+        </div>
+        <div class="cleg">
+          <span class="leg"><span class="lsq" style="background:#2D5016"></span>Crooked Farmz $999</span>
+          <span class="leg"><span class="lsq" style="background:#C8A96E"></span>Conventional grocery</span>
+          <span class="leg"><span class="lsq" style="background:#8B3A1A"></span>Conventional full-cost</span>
+        </div>
+
+        <!-- Table -->
+        <table class="bt">
+          <thead><tr>
+            <th style="width:44%">Category</th>
+            <th style="width:20%">Annual est.</th>
+            <th style="width:20%">20-wk share</th>
+            <th style="width:16%">Source</th>
+          </tr></thead>
+          <tbody id="tBody"></tbody>
+        </table>
+
+      </div><!-- /results-card-inner -->
+
+      <!-- Share bar -->
+      <div class="share-bar">
+        <button class="share-btn" id="saveImgBtn" onclick="saveAsImage()">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3.5 6l3 3 3-3M1 10.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Save as image
+        </button>
+        <a class="share-btn fb" id="fbShareBtn" href="#" target="_blank" onclick="return openFBShare()">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M8.5 1.5H7a2 2 0 00-2 2v1.5H3.5V7H5v5h2V7h1.5L9 5H7V3.5c0-.28.22-.5.5-.5H8.5V1.5z" fill="white"/></svg>
+          Share on Facebook
+        </a>
+      </div>
+    </div><!-- /results-card -->
+
+  </div><!-- /s-results -->
+
+  <!-- ══ SECTION 4: CALL TO ACTION ══ -->
+  <div class="section-anchor" id="s-cta">
+    <div class="section-strip" id="strip-4"></div>
+    <div class="cta">
+      <div class="cta-pre" id="ctaPre"></div>
+      <div class="cta-main" id="ctaMain"></div>
+      <div class="cta-sub" id="ctaSub"></div>
+      <a class="cta-btn" id="ctaBtn" href="#" target="_blank"></a>
+      <a class="cta-sec" id="ctaSec" href="#" target="_blank"></a>
     </div>
-    <div class="cleg">
-      <span class="leg"><span class="lsq" style="background:#2D5016"></span>Crooked Farmz $999</span>
-      <span class="leg"><span class="lsq" style="background:#C8A96E"></span>Conventional grocery</span>
-      <span class="leg"><span class="lsq" style="background:#8B3A1A"></span>Conventional full-cost</span>
+  </div><!-- /s-cta -->
+
+  <!-- ══ SECTION DIVIDER IMAGE ══ -->
+  <div class="divider-img-wrap" id="dividerImgWrap"></div>
+
+  <!-- ══ SECTION 5: THE SCIENCE ══ -->
+  <div class="section-anchor" id="s-argument">
+    <div class="section-strip" id="strip-5"></div>
+    <div class="arg">
+      <h2 id="argHead"></h2>
+      <blockquote>
+        <p id="fQuote"></p>
+        <cite id="fAttrib"></cite>
+      </blockquote>
+      <div id="argParas"></div>
+      <div class="sources" id="sources"></div>
     </div>
-  </div>
+  </div><!-- /s-argument -->
 
-  <!-- TABLE -->
-  <div class="tbl-block">
-    <span class="slbl">Line by line</span>
-    <table class="bt">
-      <thead><tr>
-        <th style="width:44%">Category</th>
-        <th style="width:20%">Annual est.</th>
-        <th style="width:20%">20-wk share</th>
-        <th style="width:16%">Source</th>
-      </tr></thead>
-      <tbody id="tBody"></tbody>
-    </table>
-  </div>
-
-  <!-- CTA -->
-  <div class="cta">
-    <div class="cta-pre" id="ctaPre"></div>
-    <div class="cta-main" id="ctaMain"></div>
-    <div class="cta-sub" id="ctaSub"></div>
-    <a class="cta-btn" id="ctaBtn" href="#" target="_blank"></a>
-  </div>
-
-  <!-- ARGUMENT -->
-  <div class="arg">
-    <h2 id="argHead"></h2>
-    <blockquote>
-      <p id="fQuote"></p>
-      <cite id="fAttrib"></cite>
-    </blockquote>
-    <div id="argParas"></div>
-    <div class="sources" id="sources"></div>
+  <!-- LOGO BOTTOM -->
+  <div class="logo-bottom">
+    <img id="logoBottom" src="" alt="">
+    <div class="logo-fallback-b" id="logoFbB" style="display:none"></div>
   </div>
 
   <!-- FOOTER -->
@@ -329,69 +590,136 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 
 </div><!-- end .pw -->
 
+<!-- html2canvas for save-as-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <script>
-/* ── constants ── */
 const CF=999, WEEKS=20, SF=0.385;
 
-/* ── render CONFIG into DOM ── */
-function boot(){
-  /* logo */
-  const img=document.getElementById('cflogo');
-  img.src=CONFIG.logoUrl; img.alt=CONFIG.logoAlt;
-  img.onerror=()=>{img.style.display='none';const fb=document.getElementById('logofb');fb.textContent=CONFIG.logoFallbackText;fb.style.display='block';};
+/* ── BUILD NAV ── */
+function buildNav(){
+  const nav=document.getElementById('sideNav');
+  const mob=document.getElementById('mobileNav');
+  CONFIG.sections.forEach(s=>{
+    // sidebar
+    const a=document.createElement('a');
+    a.href='#'+s.id; a.className='snav-item'; a.dataset.section=s.id;
+    a.innerHTML=`<div class="snav-bar" style="background:${s.color}"></div><div><span class="snav-num">${s.num}</span> <span class="snav-label" style="color:${s.color}">${s.label}</span></div>`;
+    nav.appendChild(a);
+    // mobile seg
+    const m=document.createElement('div');
+    m.className='mob-seg'; m.dataset.section=s.id;
+    m.style.background=s.color;
+    mob.appendChild(m);
+  });
+  // scroll spy
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id=e.target.id;
+        document.querySelectorAll('.snav-item').forEach(el=>el.classList.toggle('active',el.dataset.section===id));
+        document.querySelectorAll('.mob-seg').forEach(el=>el.classList.toggle('active',el.dataset.section===id));
+      }
+    });
+  },{threshold:0.25});
+  CONFIG.sections.forEach(s=>{
+    const el=document.getElementById(s.id);
+    if(el) observer.observe(el);
+  });
+}
 
-  /* masthead */
-  document.getElementById('eyebrow').textContent=CONFIG.eyebrow;
-  document.getElementById('headline').innerHTML=CONFIG.headline.replace(/\n/g,'<br>');
-  document.getElementById('deck').innerHTML=CONFIG.deck.replace(/\n/g,'<br>');
+/* ── BUILD SECTION STRIPS ── */
+function buildStrips(){
+  CONFIG.sections.forEach(s=>{
+    const el=document.getElementById('strip-'+s.num);
+    if(!el)return;
+    el.innerHTML=`<div class="strip-bar" style="background:${s.color}"></div><div class="strip-num" style="color:${s.color}">${String(s.num).padStart(2,'0')}</div><div><div class="strip-label">${s.label}</div></div>`;
+  });
+}
 
-  /* premise */
+/* ── BUILD HERO ── */
+function buildHero(){
+  const wrap=document.getElementById('heroWrap');
+  const img=document.createElement('img');
+  img.className='hero-img'; img.alt=CONFIG.heroImageAlt; img.src=CONFIG.heroImageUrl;
+  img.onerror=()=>{
+    wrap.innerHTML=`<div class="hero-img-placeholder"><span>${CONFIG.heroImageAlt}</span></div>`;
+  };
+  wrap.appendChild(img);
+}
+
+/* ── BUILD DIVIDER IMAGE ── */
+function buildDividerImg(){
+  const wrap=document.getElementById('dividerImgWrap');
+  const img=document.createElement('img');
+  img.className='divider-img'; img.alt=CONFIG.sectionImageAlt; img.src=CONFIG.sectionImageUrl;
+  img.onerror=()=>{
+    wrap.innerHTML=`<div class="divider-img-placeholder"><span>${CONFIG.sectionImageAlt}</span></div>`;
+  };
+  wrap.appendChild(img);
+}
+
+/* ── RENDER CONFIG TEXT ── */
+function renderText(){
+  document.getElementById('eyebrow').innerHTML=CONFIG.eyebrow;
+  document.getElementById('headline').innerHTML=CONFIG.headline;
+  document.getElementById('deck').innerHTML=CONFIG.deck;
   document.getElementById('premise').innerHTML=CONFIG.premiseHTML;
 
-  /* slider */
   const sl=document.getElementById('weeklySlider');
-  sl.min=CONFIG.sliderMin; sl.max=CONFIG.sliderMax;
-  sl.value=CONFIG.sliderDefault; sl.step=1;
-  document.getElementById('sliderLabel').textContent=CONFIG.sliderLabel;
-  document.getElementById('sliderFn').textContent=CONFIG.sliderFootnote;
+  sl.min=CONFIG.sliderMin; sl.max=CONFIG.sliderMax; sl.value=CONFIG.sliderDefault; sl.step=1;
+  document.getElementById('sliderLabel').innerHTML=CONFIG.sliderLabel;
+  document.getElementById('sliderFn').innerHTML=CONFIG.sliderFootnote;
 
-  /* number label */
-  document.getElementById('nrLabel').textContent=CONFIG.numberLabel;
+  document.getElementById('nrLabel').textContent=CONFIG.numberLabelPremium;
 
-  /* CTA */
   document.getElementById('ctaPre').textContent=CONFIG.ctaPre;
-  document.getElementById('ctaMain').innerHTML=CONFIG.ctaMain.replace(/\n/g,'<br>');
+  document.getElementById('ctaMain').innerHTML=CONFIG.ctaMain;
   document.getElementById('ctaSub').textContent=CONFIG.ctaSub;
-  const btn=document.getElementById('ctaBtn');
-  btn.textContent=CONFIG.ctaButtonText; btn.href=CONFIG.ctaButtonUrl;
+  const cb=document.getElementById('ctaBtn'); cb.textContent=CONFIG.ctaButtonText; cb.href=CONFIG.ctaButtonUrl;
+  const cs=document.getElementById('ctaSec'); cs.textContent=CONFIG.ctaSecondaryText; cs.href=CONFIG.ctaSecondaryUrl;
 
-  /* argument */
   document.getElementById('argHead').textContent=CONFIG.argumentHeadline;
   document.getElementById('fQuote').textContent='\u201C'+CONFIG.fukuokaQuote+'\u201D';
   document.getElementById('fAttrib').innerHTML='&mdash; '+CONFIG.fukuokaAttrib;
   const ap=document.getElementById('argParas');
   CONFIG.argumentParagraphs.forEach(p=>{const el=document.createElement('p');el.innerHTML=p;ap.appendChild(el);});
   document.getElementById('sources').innerHTML=CONFIG.sourcesHTML;
-
-  /* footer */
   document.getElementById('pgfoot').innerHTML=CONFIG.footerHTML;
 
-  /* build toggles */
+  // logos
+  const lb=document.getElementById('logoBottom');
+  lb.src=CONFIG.logoUrl; lb.alt=CONFIG.logoAlt;
+  lb.onerror=()=>{lb.style.display='none';const fb=document.getElementById('logoFbB');fb.textContent=CONFIG.logoFallback;fb.style.display='block';};
+}
+
+/* ── BUILD TOGGLES ── */
+const CHECK_SVG=`<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L3.8 7.5L10 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+function buildToggles(){
   const grid=document.getElementById('togGrid');
   CONFIG.addons.forEach(a=>{
     const d=document.createElement('div');
     d.className='ti'+(a.on?' on':'');
-    d.innerHTML=`<div class="tchk"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex:1"><div class="tn">${a.name}</div><div class="td">${a.detail} ~$${a.annual}/yr &middot; ${a.pct}% dietary attribution.</div></div><div class="ta" id="ta-${a.id}">${a.on?'$'+getAS(a).toFixed(2):'&mdash;'}</div>`;
+    d.innerHTML=`<div class="tchk">${CHECK_SVG}</div><div style="flex:1"><div class="tn">${a.name}</div><div class="td">${a.detail}</div></div><div class="ta" id="ta-${a.id}">$${getAS(a).toFixed(2)}</div>`;
     d.onclick=()=>{a.on=!a.on;d.classList.toggle('on',a.on);update();};
     grid.appendChild(d);
   });
 
-  sl.addEventListener('input',update);
-  update();
-  setTimeout(updateBars,120);
+  const qgrid=document.getElementById('qualGrid');
+  CONFIG.qualToggles.forEach(q=>{
+    const d=document.createElement('div');
+    d.className='ti'+(q.locked?'locked-on':(q.on?' on':''));
+    const badge=q.locked?`<span class="lock-badge">always included</span>`:'';
+    d.innerHTML=`<div class="tchk">${CHECK_SVG}</div><div style="flex:1"><div class="tn">${q.name}</div><div class="td">${q.detail}</div>${badge}</div><div class="ta qualitative">not<br>priced</div>`;
+    if(!q.locked){
+      d.onclick=()=>{q.on=!q.on;d.classList.toggle('on',q.on);};
+    }
+    qgrid.appendChild(d);
+  });
 }
 
-/* ── calculations ── */
+/* ── CALCULATIONS ── */
 const getGrocery=()=>parseInt(document.getElementById('weeklySlider').value)*WEEKS;
 const getAS=a=>a.annual*SF*(a.pct/100);
 const getFullCost=()=>getGrocery()+CONFIG.addons.filter(a=>a.on).reduce((s,a)=>s+getAS(a),0);
@@ -408,24 +736,31 @@ function updateBars(){
 function updateNumber(){
   const full=getFullCost(), diff=full-CF;
   const numEl=document.getElementById('theNum');
+  const lblEl=document.getElementById('nrLabel');
   const descEl=document.getElementById('nrDesc');
   const latteEl=document.getElementById('nrLatte');
-  numEl.textContent='$'+Math.abs(diff/WEEKS).toFixed(2)+'/wk';
+  const perWk=Math.abs(diff/WEEKS);
+  numEl.textContent='$'+perWk.toFixed(2)+'/wk';
+
   if(diff>0){
-    numEl.classList.remove('warn');
+    // conventional full-cost > CF → CF saves you money
+    numEl.classList.add('saving');
+    lblEl.textContent=CONFIG.numberLabelSaving;
+    descEl.innerHTML=CONFIG.descSaving;
+    latteEl.classList.add('hidden');
+  } else {
+    // CF costs more
+    numEl.classList.remove('saving');
+    lblEl.textContent=CONFIG.numberLabelPremium;
     const rawPrem=(CF-getGrocery())/WEEKS;
-    if(rawPrem<=10){
-      descEl.textContent=CONFIG.descLow;
+    if(Math.abs(rawPrem)<=10){
+      descEl.innerHTML=CONFIG.descPremiumLow;
       latteEl.textContent=CONFIG.latteLine;
       latteEl.classList.remove('hidden');
     } else {
-      descEl.textContent=CONFIG.descHigh;
+      descEl.innerHTML=CONFIG.descPremiumHigh;
       latteEl.classList.add('hidden');
     }
-  } else {
-    numEl.classList.add('warn');
-    descEl.textContent=CONFIG.descWarn;
-    latteEl.classList.add('hidden');
   }
 }
 
@@ -433,28 +768,71 @@ function buildTable(){
   const tb=document.getElementById('tBody'); tb.innerHTML='';
   const wk=parseInt(document.getElementById('weeklySlider').value), gr=wk*WEEKS;
   const r1=document.createElement('tr');
-  r1.innerHTML=`<td>Conventional grocery vegetables<br><span style="font-size:.72rem;font-style:italic;color:#7A6E5E">$${wk}/wk &times; 20 weeks</span></td><td class="amt" style="color:#7A6E5E">$${(gr/SF).toFixed(0)}/yr</td><td class="amt">$${gr.toFixed(2)}</td><td style="font-size:.72rem;color:#7A6E5E">Market prices</td>`;
+  r1.innerHTML=`<td>Conventional grocery vegetables<br><span style="font-size:.78rem;font-style:italic;color:#7A6E5E">$${wk}/wk &times; ${WEEKS} weeks</span></td><td class="amt" style="color:#7A6E5E">$${(gr/SF).toFixed(0)}/yr</td><td class="amt">$${gr.toFixed(2)}</td><td style="font-size:.78rem;color:#7A6E5E">Market</td>`;
   tb.appendChild(r1);
   CONFIG.addons.forEach(a=>{
     const s=getAS(a), tr=document.createElement('tr');
-    if(!a.on)tr.classList.add('off');
-    tr.innerHTML=`<td>${a.name}<br><span style="font-size:.72rem;font-style:italic;color:#7A6E5E">${a.pct}% dietary attribution</span></td><td class="amt" style="color:#7A6E5E">$${a.annual}/yr</td><td class="amt">${a.on?'$'+s.toFixed(2):'&mdash;'}</td><td style="font-size:.72rem;color:#7A6E5E">${a.source}</td>`;
+    if(!a.on) tr.classList.add('off');
+    tr.innerHTML=`<td>${a.name}<br><span style="font-size:.78rem;font-style:italic;color:#7A6E5E">${a.pct}% dietary attribution</span></td><td class="amt" style="color:#7A6E5E">$${a.annual}/yr</td><td class="amt">${a.on?'$'+s.toFixed(2):'&mdash;'}</td><td style="font-size:.78rem;color:#7A6E5E">${a.source}</td>`;
     tb.appendChild(tr);
   });
   const tot=getFullCost();
   const tr2=document.createElement('tr'); tr2.className='trow';
-  tr2.innerHTML=`<td>Conventional total</td><td></td><td class="amt">$${tot.toFixed(2)}</td><td></td>`;
+  tr2.innerHTML=`<td><strong>Conventional total</strong></td><td></td><td class="amt">$${tot.toFixed(2)}</td><td></td>`;
   tb.appendChild(tr2);
   const tr3=document.createElement('tr'); tr3.className='crow';
-  tr3.innerHTML=`<td>Crooked Farmz CSA</td><td></td><td class="amt">$${CF.toFixed(2)}</td><td></td>`;
+  tr3.innerHTML=`<td><strong>Crooked Farmz CSA</strong></td><td></td><td class="amt">$${CF.toFixed(2)}</td><td></td>`;
   tb.appendChild(tr3);
 }
 
 function update(){
   const wk=parseInt(document.getElementById('weeklySlider').value);
   document.getElementById('sliderReadout').textContent='$'+wk+'/wk';
-  CONFIG.addons.forEach(a=>{const el=document.getElementById('ta-'+a.id);if(el)el.innerHTML=a.on?'$'+getAS(a).toFixed(2):'&mdash;';});
+  CONFIG.addons.forEach(a=>{
+    const el=document.getElementById('ta-'+a.id);
+    if(el) el.textContent=a.on?'$'+getAS(a).toFixed(2):'—';
+  });
   updateNumber(); updateBars(); buildTable();
+}
+
+/* ── SHARE FUNCTIONS ── */
+function openFBShare(){
+  const url='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(CONFIG.shareUrl)+'&quote='+encodeURIComponent(CONFIG.shareText);
+  window.open(url,'_blank','width=600,height=500');
+  return false;
+}
+
+function saveAsImage(){
+  const btn=document.getElementById('saveImgBtn');
+  btn.textContent='Saving...';
+  const card=document.getElementById('resultsCard');
+  html2canvas(card,{
+    backgroundColor:'#F7F4EE',
+    scale:2,
+    useCORS:true,
+    ignoreElements:el=>el.classList.contains('share-bar')
+  }).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='crooked-farmz-real-price.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+    btn.innerHTML=`<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3.5 6l3 3 3-3M1 10.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as image`;
+  }).catch(()=>{
+    btn.innerHTML=`<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3.5 6l3 3 3-3M1 10.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as image`;
+  });
+}
+
+/* ── BOOT ── */
+function boot(){
+  buildNav();
+  buildStrips();
+  buildHero();
+  buildDividerImg();
+  renderText();
+  buildToggles();
+  document.getElementById('weeklySlider').addEventListener('input',update);
+  update();
+  setTimeout(updateBars,150);
 }
 
 boot();
