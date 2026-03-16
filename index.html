@@ -8,7 +8,7 @@
 
 <script>
 /* ============================================================
-   CROOKED FARMZ — THE REAL PRICE OF VEGETABLES  v3
+   CROOKED FARMZ — THE REAL PRICE OF VEGETABLES  v4
    CONFIG BLOCK — edit everything here, touch nothing else
 
    HTML FORMATTING in any field:
@@ -21,6 +21,11 @@
    DYNAMIC NUMBER TOKEN:
      Use {{WEEKLY_NUMBER}} anywhere in argumentParagraphs
      to insert the live calculated weekly figure.
+
+   ADDON SLIDERS:
+     annual     = default seasonal allocation in CAD (slider midpoint/default)
+     sliderMax  = upper bound of the vertical slider (defaults to annual*2)
+     pct        = shown in table as label only — slider IS the attribution now
    ============================================================ */
 
 const CONFIG = {
@@ -56,7 +61,7 @@ const CONFIG = {
   deck:     "Yes, our CSA costs more at the checkout.<br>Here's what that actually means.",
 
   /* ── HONEST PREMISE ─────────────────────────────────────── */
-  premiseHTML: `<strong>Let's be honest with each other.</strong> A comparable weekly haul of vegetables at the supermarket costs roughly $30–40. Our CSA is $49.95 a box. We're not going to pretend otherwise. What we're asking is that <u>you price the whole picture</u> — including what you spend to make up for what industrial food doesn't provide.<p><strong>Adjust the numbers below to match your household. See what you find.</strong>`,
+  premiseHTML: `<strong>Let's be honest with each other.</strong> A comparable weekly haul of vegetables at the supermarket costs roughly $30–40. Our CSA is $49.95 a box. We're not going to pretend otherwise. What we're asking is that <u>you price the whole picture</u> — including what you spend to make up for what industrial food doesn't provide.<p><strong>Adjust the numbers below to match your household. See what you find.</strong></p>`,
 
   /* ── SLIDER ─────────────────────────────────────────────── */
   sliderLabel:    "What you spend at the supermarket for a comparable weekly haul",
@@ -66,17 +71,18 @@ const CONFIG = {
   sliderDefault: 35,
 
   /* ── QUANTITATIVE TOGGLES ───────────────────────────────────
-     annual = estimated household annual spend in CAD
-     pct    = % attributed to dietary quality
-     on     = true means checked by default
-     locked = true means cannot be toggled off
+     annual     = default seasonal allocation in CAD — this is the slider default
+     sliderMax  = upper bound of vertical slider; omit to auto-set at annual*2
+     pct        = display label only (attribution %)
+     on         = true means checked by default
+     locked     = true means cannot be toggled off
   ──────────────────────────────────────────────────────────── */
   addons: [
     {
       id: "supps",
       name: "Vitamins &amp; dietary supplements",
       detail: "D, Mg, B12, probiotics, zinc — the nutrients most depleted by industrial soil management. Canadians spend <strong>$3.4 billion/year</strong> on supplements, largely compensating for what nutrient-dense food used to provide on its own.",
-      annual: 310,
+      annual: 65.64,
       pct: 55,
       source: "Industry 2024",
       on: true,
@@ -86,7 +92,7 @@ const CONFIG = {
       id: "otc",
       name: "OTC non-prescribed medicines",
       detail: "Digestive, immune, and pain/inflammation products — the categories most directly linked to diet quality. <em>OECD data: Canadians spend ~$95/person/year on non-prescribed medicines.</em>",
-      annual: 95,
+      annual: 14.63,
       pct: 40,
       source: "OECD 2021",
       on: true,
@@ -96,7 +102,7 @@ const CONFIG = {
       id: "dig",
       name: "Digestive aids &amp; antacids",
       detail: "Gut microbiome health is directly upstream of produce quality and soil microbial diversity. A compromised gut microbiome is partly a consequence of a diet that never received the live microbial diversity that <strong>healthy, soil-grown food carries</strong>.",
-      annual: 100,
+      annual: 23.10,
       pct: 60,
       source: "Market est.",
       on: true,
@@ -140,7 +146,7 @@ const CONFIG = {
   /* ── CTA BLOCK ───────────────────────────────────────────── */
   ctaPre:           "2026 CSA — limited shares available",
   ctaMain:          "Thursday evenings. Harvested that day.<br>East York pickup and delivery.",
-  ctaSub:           "20-week full CSA share · $999<br>10-week alternating CSA share · $525 ",
+  ctaSub:           "20-week full CSA share · $999<br>10-week alternating CSA share · $525",
   ctaButtonText:    "Subscribe for 2026 →",
   ctaButtonUrl:     "https://crookedfarmz.localline.ca/my-products/category/2026-vegetable-csa-subscriptions",
   ctaSecondaryText: "Learn more about Crooked Farmz →",
@@ -164,10 +170,10 @@ const CONFIG = {
 
     `This tool doesn't claim that all of your supplement spending is caused by industrial food. It claims a <strong>defensible share</strong> of it is. The numbers are yours to adjust. The argument stands or falls on your own arithmetic.`,
 
-    `What we found, running it honestly: once you account for that hidden receipt, your real weekly figure for choosing Crooked Farmz over the full-cost conventional path is <strong>{{WEEKLY_NUMBER}}</strong> — at your current assumptions. That's the price of flavour, freshness, a farm in your city, <a href="https://crookedfarmz.localline.ca/my-products/category/2026-vegetable-csa-subscriptions">buying local</a>, and a small act of climate accountability every Thursday.`
+    `What we found, running it honestly: once you account for that hidden receipt, your real weekly figure for choosing Crooked Farmz over the full-cost conventional path is <strong>{{WEEKLY_NUMBER}}</strong> — at your current assumptions. That's the price of flavour, freshness, a farm in your city, <a href="https://crookedfarmz.localline.ca/my-products/category/2026-vegetable-csa-subscriptions">buying local</a>, and a small act of climate accountability every Thursday.`,
 
     `We think that's fair. We'll let you decide.`
-],
+  ],
 
   sourcesHTML: `<strong>Sources:</strong> Statistics Canada Survey of Household Spending 2023 (household health care spending; non-prescribed medicines +29.6% category growth). Grand View Research 2024 (Canadian dietary supplements market ÷ 14.4M households ≈ $310 CAD/household/yr). OECD 2021 (OTC pharmaceutical spend per capita, converted CAD 2024). CIHI/CUPE 2024 (average Canadian household prescription drug and private health premium spending). Attribution rates are conservative estimates from published research linking soil health, nutrient density, gut microbiome diversity, and preventable chronic disease burden. <u>This is a full-cost accounting framework — not a medical claim.</u>`,
 
@@ -235,44 +241,79 @@ body{font-family:var(--body);background:var(--bg);color:var(--tx);line-height:1.
 
 /* ── PREMISE ── */
 .premise{border-left:3px solid var(--st);padding:1rem 1.25rem;margin-bottom:2rem;background:var(--stl);border-radius:0 6px 6px 0}
-.premise p{font-size:1rem;color:var(--txm);line-height:1.75;font-style:italic}
+.premise p{font-size:1rem;color:var(--txm);line-height:1.75;font-style:italic;margin-top:.6rem}
+.premise p:first-child{margin-top:0}
 .premise p strong{font-style:normal;font-weight:600;color:var(--tx)}
 
 /* ── LABELS ── */
 .slbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--txmu);font-weight:600;margin-bottom:.6rem;display:block}
 .tog-group-head{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--txmu);font-weight:600;margin:1.5rem 0 .6rem;display:block}
 
-/* ── SLIDER ── */
-.slider-block{margin-bottom:1.75rem}
+/* ── STEP 1 SLIDER — distinct bg ── */
+.slider-block{
+  margin-bottom:1.75rem;
+  background:#E0D9C8;
+  border:1px solid #B8AC8C;
+  border-radius:8px;
+  padding:1.25rem 1.25rem 1rem;
+}
 .sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem;flex-wrap:wrap;gap:4px}
 .sh .sl{font-size:1rem;color:var(--tx)}
 .sh .sv{font-family:var(--serif);font-size:1.3rem;font-weight:600;color:var(--gd)}
-input[type=range]{-webkit-appearance:none;width:100%;height:5px;background:var(--bd);border-radius:3px;outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--gd);cursor:pointer;border:3px solid var(--bg);box-shadow:0 1px 5px rgba(0,0,0,.2)}
-input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--gd);cursor:pointer;border:3px solid var(--bg)}
+input[type=range]:not(.vslider){-webkit-appearance:none;width:100%;height:5px;background:var(--bd);border-radius:3px;outline:none;cursor:pointer}
+input[type=range]:not(.vslider)::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--gd);cursor:pointer;border:3px solid #E0D9C8;box-shadow:0 1px 5px rgba(0,0,0,.2)}
+input[type=range]:not(.vslider)::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--gd);cursor:pointer;border:3px solid #E0D9C8}
 .sfn{font-size:.85rem;color:var(--txmu);margin-top:.4rem;font-style:italic}
 
 /* ── TOGGLE CARDS ── */
 .tog-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:.5rem}
-
 .ti{display:flex;align-items:flex-start;gap:12px;padding:.85rem 1rem;border:1px solid var(--bd);border-radius:6px;background:var(--bgc);cursor:pointer;transition:border-color .15s,background .15s;user-select:none}
 .ti:hover:not(.ti-locked){border-color:var(--gm)}
 .ti.on{border-color:var(--gd);background:#fff}
 .ti.ti-locked{border-color:var(--gd);background:#fff;cursor:default}
-
 .tchk{width:18px;height:18px;border:1.5px solid var(--bd);border-radius:3px;flex-shrink:0;margin-top:3px;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .15s}
-.ti.on .tchk{background:var(--gd);border-color:var(--gd)}
-.ti.ti-locked .tchk{background:var(--gd);border-color:var(--gd)}
+.ti.on .tchk,.ti.ti-locked .tchk{background:var(--gd);border-color:var(--gd)}
 .tchk svg{opacity:0;transition:opacity .1s}
-.ti.on .tchk svg{opacity:1}
-.ti.ti-locked .tchk svg{opacity:1}
-
+.ti.on .tchk svg,.ti.ti-locked .tchk svg{opacity:1}
+.ti-body{flex:1;min-width:0}
 .tn{font-size:.95rem;font-weight:600;color:var(--tx);line-height:1.3}
 .td{font-size:.82rem;color:var(--txmu);line-height:1.6;margin-top:4px}
-.ta{margin-left:auto;flex-shrink:0;font-family:var(--serif);font-size:.95rem;font-weight:600;color:var(--txmu);padding-left:10px;transition:color .15s;white-space:nowrap;text-align:right}
-.ti.on .ta{color:var(--ru)}
-.ta.qual{font-size:.75rem;font-style:italic;color:var(--txmu);max-width:80px;line-height:1.3;padding-top:2px}
 .lock-badge{display:inline-block;font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--ru);font-weight:600;margin-top:5px;border:1px solid var(--ru);border-radius:3px;padding:1px 5px}
+
+/* ── VERTICAL MINI SLIDER ── */
+.mini-slider-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  flex-shrink:0;width:52px;padding-left:8px;gap:3px;
+}
+.mini-amt{
+  font-family:var(--serif);font-size:.88rem;font-weight:600;
+  color:var(--txmu);white-space:nowrap;
+  transition:color .15s;text-align:center;line-height:1.2;
+}
+.ti.on .mini-amt{color:var(--ru)}
+
+/* vertical range — cross-browser */
+.vslider{
+  -webkit-appearance:slider-vertical;
+  writing-mode:vertical-lr;
+  direction:rtl;
+  width:22px;height:90px;
+  cursor:pointer;outline:none;
+  background:transparent;padding:0;margin:4px 0;
+}
+.vslider::-webkit-slider-runnable-track{width:4px;background:var(--bd);border-radius:2px}
+.vslider::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--gd);cursor:pointer;
+  border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2);
+  margin-left:-7px;
+}
+.vslider::-moz-range-track{width:4px;background:var(--bd);border-radius:2px}
+.vslider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--gd);cursor:pointer;border:2px solid #fff}
+.mini-label{font-size:9px;color:var(--txmu);letter-spacing:.04em;text-align:center;line-height:1.3}
+
+.ta.qual{font-size:.75rem;font-style:italic;color:var(--txmu);max-width:80px;line-height:1.3;padding-top:2px;padding-left:10px;text-align:right;flex-shrink:0}
 
 /* ── RESULTS CARD ── */
 .results-card{background:#fff;border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;margin:1.75rem 0}
@@ -319,7 +360,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .share-btn.fb{background:#1877F2;color:#fff;border-color:#1877F2}
 .share-btn.fb:hover{background:#166fe5}
 
-/* ── SECTION DIVIDER IMAGE ── */
+/* ── DIVIDER IMAGE ── */
 .divider-wrap{margin:2.5rem -1.5rem}
 .divider-img{width:100%;max-height:320px;object-fit:cover;object-position:center;display:block}
 .divider-placeholder{width:100%;height:180px;background:linear-gradient(90deg,#1C1208 0%,#2D5016 100%);display:flex;align-items:center;justify-content:center}
@@ -329,7 +370,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .cta{text-align:center;padding:2rem 1.5rem;background:var(--gd);border-radius:8px}
 .cta-pre{font-size:10px;color:#a8c97f;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.6rem}
 .cta-main{font-family:var(--serif);font-size:clamp(1.2rem,3.5vw,1.6rem);color:#fff;margin-bottom:.5rem;line-height:1.3;font-style:italic}
-.cta-sub{font-size:.88rem;color:#a8c97f;margin-bottom:1.25rem;font-style:italic}
+.cta-sub{font-size:.88rem;color:#a8c97f;margin-bottom:1.25rem;font-style:italic;line-height:1.9}
 .cta-btn{display:inline-block;background:var(--st);color:var(--tx);font-family:var(--body);font-size:.95rem;font-weight:600;letter-spacing:.04em;padding:.8rem 2rem;border-radius:4px;text-decoration:none;transition:background .15s}
 .cta-btn:hover{background:#ddb95a}
 .cta-sec{display:block;font-size:.82rem;color:#a8c97f;text-decoration:underline;cursor:pointer;margin-top:.75rem}
@@ -339,6 +380,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .arg{padding-top:0}
 .arg h2{font-family:var(--serif);font-size:1.6rem;font-weight:600;color:var(--tx);margin-bottom:1rem;line-height:1.3}
 .arg p{font-size:1rem;color:var(--txm);line-height:1.85;margin-bottom:1.1rem}
+.arg a{color:var(--gm)}
 .arg blockquote{border-left:3px solid var(--st);padding:.85rem 1.1rem;margin:1.5rem 0;background:var(--stl);border-radius:0 6px 6px 0}
 .arg blockquote p{font-style:italic;margin-bottom:0;font-size:.97rem}
 .arg blockquote cite{display:block;font-size:.8rem;color:var(--txmu);margin-top:.5rem;font-style:normal}
@@ -366,6 +408,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
   .pw{padding:0 1rem 3rem}
   .brl{width:90px}
   .results-inner{padding:1rem}
+  .vslider{height:60px}
 }
 </style>
 </head>
@@ -385,15 +428,15 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <h1 id="headline"></h1>
       <p class="deck" id="deck"></p>
     </div>
-    <div class="premise"><p id="premise"></p></div>
+    <div class="premise"><div id="premise"></div></div>
   </div>
 
   <!-- ══ 2: THE CALCULATOR ══ -->
   <div class="section-anchor" id="s-app">
     <div class="section-strip" id="strip-2"></div>
 
+    <span class="slbl">Step 1 — Set your weekly grocery baseline</span>
     <div class="slider-block">
-      <span class="slbl">Step 1 — Set your weekly grocery baseline</span>
       <div class="sh">
         <span class="sl" id="sliderLabel"></span>
         <span class="sv" id="sliderReadout"></span>
@@ -412,17 +455,14 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
   <!-- ══ 3: YOUR NUMBERS ══ -->
   <div class="section-anchor" id="s-results">
     <div class="section-strip" id="strip-3"></div>
-
     <div class="results-card" id="resultsCard">
       <div class="results-inner">
-
         <div class="nr">
           <span class="nrlbl" id="nrLabel"></span>
           <span class="num" id="theNum">—</span>
           <p class="nrdesc" id="nrDesc"></p>
           <p class="nrlatte hidden" id="nrLatte"></p>
         </div>
-
         <span class="slbl">20-week season — side by side</span>
         <div class="barchart">
           <div class="brow"><div class="brl">Crooked Farmz CSA</div><div class="btrack"><div class="bfill cf" id="bCF" style="width:0%"><span class="bdol" id="lCF"></span></div></div></div>
@@ -434,7 +474,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
           <span class="leg"><span class="lsq" style="background:#C8A96E"></span>Conventional grocery</span>
           <span class="leg"><span class="lsq" style="background:#8B3A1A"></span>Conventional full-cost</span>
         </div>
-
         <table class="bt">
           <thead><tr>
             <th style="width:44%">Category</th>
@@ -444,9 +483,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
           </tr></thead>
           <tbody id="tBody"></tbody>
         </table>
-
       </div>
-
       <div class="share-bar">
         <button class="share-btn" id="saveImgBtn" onclick="saveAsImage()">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3.5 6l3 3 3-3M1 10.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -472,7 +509,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     </div>
   </div>
 
-  <!-- SECTION DIVIDER IMAGE -->
+  <!-- DIVIDER IMAGE -->
   <div class="divider-wrap" id="dividerWrap"></div>
 
   <!-- ══ 5: THE PHILOSOPHY ══ -->
@@ -480,10 +517,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     <div class="section-strip" id="strip-5"></div>
     <div class="arg">
       <h2 id="argHead"></h2>
-      <blockquote>
-        <p id="fQuote"></p>
-        <cite id="fAttrib"></cite>
-      </blockquote>
+      <blockquote><p id="fQuote"></p><cite id="fAttrib"></cite></blockquote>
       <div id="argParas"></div>
       <div class="sources" id="sources"></div>
     </div>
@@ -502,33 +536,31 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-const CF=999, WEEKS=20, SF=0.385;
+const CF=999,WEEKS=20,SF=0.385;
 const CHECK=`<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L3.8 7.5L10 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+/* per-addon seasonal values driven by mini-sliders */
+const addonVals={};
 
 /* ── calculations ── */
 const getGrocery=()=>parseInt(document.getElementById('weeklySlider').value)*WEEKS;
-const getAS=a=>a.annual*SF*(a.pct/100);
-const getFullCost=()=>getGrocery()+CONFIG.addons.filter(a=>a.on).reduce((s,a)=>s+getAS(a),0);
+const getUserAddonTotal=()=>CONFIG.addons.filter(a=>a.on).reduce((s,a)=>s+(addonVals[a.id]||0),0);
+const getFullCost=()=>getGrocery()+getUserAddonTotal();
 const getLiveNumber=()=>{
   const diff=getFullCost()-CF;
-  return {
-    isSaving: diff>0,
-    perWk: Math.abs(diff/WEEKS),
-    formatted: '$'+Math.abs(diff/WEEKS).toFixed(2)+'/wk'
-  };
+  return{isSaving:diff>0,perWk:Math.abs(diff/WEEKS),formatted:'$'+Math.abs(diff/WEEKS).toFixed(2)+'/wk'};
 };
 
 /* ── nav ── */
 function buildNav(){
-  const nav=document.getElementById('sideNav');
-  const mob=document.getElementById('mobileNav');
+  const nav=document.getElementById('sideNav'),mob=document.getElementById('mobileNav');
   CONFIG.sections.forEach(s=>{
     const a=document.createElement('a');
-    a.href='#'+s.id; a.className='snav-item'; a.dataset.sid=s.id;
+    a.href='#'+s.id;a.className='snav-item';a.dataset.sid=s.id;
     a.innerHTML=`<div class="snav-bar" style="background:${s.color}"></div><div><span class="snav-num">${s.num}</span> <span class="snav-label" style="color:${s.color}">${s.label}</span></div>`;
     nav.appendChild(a);
     const m=document.createElement('div');
-    m.className='mob-seg'; m.dataset.sid=s.id; m.style.background=s.color;
+    m.className='mob-seg';m.dataset.sid=s.id;m.style.background=s.color;
     mob.appendChild(m);
   });
   const obs=new IntersectionObserver(entries=>{
@@ -543,11 +575,10 @@ function buildNav(){
   CONFIG.sections.forEach(s=>{const el=document.getElementById(s.id);if(el)obs.observe(el);});
 }
 
-/* ── section strips ── */
+/* ── strips ── */
 function buildStrips(){
   CONFIG.sections.forEach(s=>{
-    const el=document.getElementById('strip-'+s.num);
-    if(!el)return;
+    const el=document.getElementById('strip-'+s.num);if(!el)return;
     el.innerHTML=`<div class="strip-bar" style="background:${s.color}"></div><div class="strip-num" style="color:${s.color}">${String(s.num).padStart(2,'0')}</div><div><div class="strip-label" style="color:${s.color}">${s.label}</div></div>`;
   });
 }
@@ -556,60 +587,49 @@ function buildStrips(){
 function buildHero(){
   const w=document.getElementById('heroWrap');
   const img=document.createElement('img');
-  img.className='hero-img'; img.alt=CONFIG.heroImageAlt; img.src=CONFIG.heroImageUrl;
+  img.className='hero-img';img.alt=CONFIG.heroImageAlt;img.src=CONFIG.heroImageUrl;
   img.onerror=()=>{w.innerHTML=`<div class="hero-placeholder"><span>${CONFIG.heroImageAlt}</span></div>`;};
   w.appendChild(img);
 }
 function buildDivider(){
   const w=document.getElementById('dividerWrap');
   const img=document.createElement('img');
-  img.className='divider-img'; img.alt=CONFIG.sectionImageAlt; img.src=CONFIG.sectionImageUrl;
+  img.className='divider-img';img.alt=CONFIG.sectionImageAlt;img.src=CONFIG.sectionImageUrl;
   img.onerror=()=>{w.innerHTML=`<div class="divider-placeholder"><span>${CONFIG.sectionImageAlt}</span></div>`;};
   w.appendChild(img);
 }
 
-/* ── render CONFIG text ── */
+/* ── render text ── */
 function renderText(){
   document.getElementById('eyebrow').innerHTML=CONFIG.eyebrow;
   document.getElementById('headline').innerHTML=CONFIG.headline;
   document.getElementById('deck').innerHTML=CONFIG.deck;
   document.getElementById('premise').innerHTML=CONFIG.premiseHTML;
-
   const sl=document.getElementById('weeklySlider');
-  sl.min=CONFIG.sliderMin; sl.max=CONFIG.sliderMax; sl.value=CONFIG.sliderDefault; sl.step=1;
+  sl.min=CONFIG.sliderMin;sl.max=CONFIG.sliderMax;sl.value=CONFIG.sliderDefault;sl.step=1;
   document.getElementById('sliderLabel').innerHTML=CONFIG.sliderLabel;
   document.getElementById('sliderFn').innerHTML=CONFIG.sliderFootnote;
-
   document.getElementById('nrLabel').textContent=CONFIG.numberLabelPremium;
-
   document.getElementById('ctaPre').textContent=CONFIG.ctaPre;
   document.getElementById('ctaMain').innerHTML=CONFIG.ctaMain;
-  document.getElementById('ctaSub').textContent=CONFIG.ctaSub;
-  const cb=document.getElementById('ctaBtn'); cb.textContent=CONFIG.ctaButtonText; cb.href=CONFIG.ctaButtonUrl;
-  const cs=document.getElementById('ctaSec'); cs.textContent=CONFIG.ctaSecondaryText; cs.href=CONFIG.ctaSecondaryUrl;
-
+  document.getElementById('ctaSub').innerHTML=CONFIG.ctaSub;  /* innerHTML — <br> renders */
+  const cb=document.getElementById('ctaBtn');cb.textContent=CONFIG.ctaButtonText;cb.href=CONFIG.ctaButtonUrl;
+  const cs=document.getElementById('ctaSec');cs.textContent=CONFIG.ctaSecondaryText;cs.href=CONFIG.ctaSecondaryUrl;
   document.getElementById('argHead').textContent=CONFIG.argumentHeadline;
   document.getElementById('fQuote').textContent='\u201C'+CONFIG.fukuokaQuote+'\u201D';
   document.getElementById('fAttrib').innerHTML='&mdash; '+CONFIG.fukuokaAttrib;
-
-  // argument paragraphs — inject live number token on first render
   renderArgParas();
-
   document.getElementById('sources').innerHTML=CONFIG.sourcesHTML;
   document.getElementById('pgfoot').innerHTML=CONFIG.footerHTML;
-
   const lb=document.getElementById('logoBottom');
-  lb.src=CONFIG.logoUrl; lb.alt=CONFIG.logoAlt;
+  lb.src=CONFIG.logoUrl;lb.alt=CONFIG.logoAlt;
   lb.onerror=()=>{lb.style.display='none';const fb=document.getElementById('logoFbB');fb.textContent=CONFIG.logoFallback;fb.style.display='block';};
 }
 
 function renderArgParas(){
-  const container=document.getElementById('argParas');
-  container.innerHTML='';
+  const container=document.getElementById('argParas');container.innerHTML='';
   const live=getLiveNumber();
-  const label=live.isSaving
-    ? '<strong>weekly saving of '+live.formatted+'</strong>'
-    : '<strong>weekly premium of '+live.formatted+'</strong>';
+  const label=live.isSaving?'<strong>weekly saving of '+live.formatted+'</strong>':'<strong>weekly premium of '+live.formatted+'</strong>';
   CONFIG.argumentParagraphs.forEach(p=>{
     const el=document.createElement('p');
     el.innerHTML=p.replace(/\{\{WEEKLY_NUMBER\}\}/g,label);
@@ -621,23 +641,44 @@ function renderArgParas(){
 function buildToggles(){
   const grid=document.getElementById('togGrid');
   CONFIG.addons.forEach(a=>{
+    addonVals[a.id]=a.annual;
+    const maxVal=a.sliderMax||(Math.round(a.annual*2*100)/100);
     const d=document.createElement('div');
     d.className='ti'+(a.on?' on':'');
-    d.innerHTML=`<div class="tchk">${CHECK}</div><div style="flex:1"><div class="tn">${a.name}</div><div class="td">${a.detail}</div></div><div class="ta" id="ta-${a.id}">$${getAS(a).toFixed(2)}</div>`;
-    d.onclick=()=>{a.on=!a.on;d.classList.toggle('on',a.on);update();};
+    d.innerHTML=`
+      <div class="tchk">${CHECK}</div>
+      <div class="ti-body">
+        <div class="tn">${a.name}</div>
+        <div class="td">${a.detail}</div>
+      </div>
+      <div class="mini-slider-wrap">
+        <div class="mini-amt" id="ta-${a.id}">$${a.annual.toFixed(2)}</div>
+        <input type="range" class="vslider" id="vs-${a.id}"
+          min="0" max="${maxVal.toFixed(2)}" step="0.50"
+          value="${a.annual.toFixed(2)}"
+          onclick="event.stopPropagation()">
+        <div class="mini-label">$0 – $${maxVal.toFixed(0)}</div>
+      </div>`;
+    d.onclick=e=>{
+      if(e.target.closest('.vslider'))return;
+      a.on=!a.on;d.classList.toggle('on',a.on);update();
+    };
     grid.appendChild(d);
+    document.getElementById('vs-'+a.id).addEventListener('input',function(){
+      addonVals[a.id]=parseFloat(this.value);
+      document.getElementById('ta-'+a.id).textContent='$'+parseFloat(this.value).toFixed(2);
+      update();
+    });
   });
 
   const qgrid=document.getElementById('qualGrid');
   CONFIG.qualToggles.forEach(q=>{
     const d=document.createElement('div');
-    const isLocked=q.locked;
-    d.className='ti on'+(isLocked?' ti-locked':'');
-    const badge=isLocked?`<span class="lock-badge">always included</span>`:'';
-    d.innerHTML=`<div class="tchk">${CHECK}</div><div style="flex:1"><div class="tn">${q.name}</div><div class="td">${q.detail}</div>${badge}</div><div class="ta qual">not<br>priced</div>`;
-    if(!isLocked){
-      d.onclick=()=>{q.on=!q.on;d.classList.toggle('on',q.on);};
-    }
+    const locked=q.locked;
+    d.className='ti on'+(locked?' ti-locked':'');
+    const badge=locked?`<span class="lock-badge">always included</span>`:'';
+    d.innerHTML=`<div class="tchk">${CHECK}</div><div class="ti-body"><div class="tn">${q.name}</div><div class="td">${q.detail}</div>${badge}</div><div class="ta qual">not<br>priced</div>`;
+    if(!locked)d.onclick=()=>{q.on=!q.on;d.classList.toggle('on',q.on);};
     qgrid.appendChild(d);
   });
 }
@@ -654,50 +695,36 @@ function updateBars(){
 
 function updateNumber(){
   const live=getLiveNumber();
-  const numEl=document.getElementById('theNum');
-  const lblEl=document.getElementById('nrLabel');
-  const descEl=document.getElementById('nrDesc');
-  const latteEl=document.getElementById('nrLatte');
-
+  const numEl=document.getElementById('theNum'),lblEl=document.getElementById('nrLabel');
+  const descEl=document.getElementById('nrDesc'),latteEl=document.getElementById('nrLatte');
   numEl.textContent=live.formatted;
-
   if(live.isSaving){
-    numEl.classList.add('saving');
-    lblEl.textContent=CONFIG.numberLabelSaving;
-    descEl.innerHTML=CONFIG.descSaving;
-    latteEl.classList.add('hidden');
+    numEl.classList.add('saving');lblEl.textContent=CONFIG.numberLabelSaving;
+    descEl.innerHTML=CONFIG.descSaving;latteEl.classList.add('hidden');
   } else {
-    numEl.classList.remove('saving');
-    lblEl.textContent=CONFIG.numberLabelPremium;
+    numEl.classList.remove('saving');lblEl.textContent=CONFIG.numberLabelPremium;
     const rawPrem=(CF-getGrocery())/WEEKS;
-    if(Math.abs(rawPrem)<=10){
-      descEl.innerHTML=CONFIG.descPremiumLow;
-      latteEl.textContent=CONFIG.latteLine;
-      latteEl.classList.remove('hidden');
-    } else {
-      descEl.innerHTML=CONFIG.descPremiumHigh;
-      latteEl.classList.add('hidden');
-    }
+    if(Math.abs(rawPrem)<=10){descEl.innerHTML=CONFIG.descPremiumLow;latteEl.textContent=CONFIG.latteLine;latteEl.classList.remove('hidden');}
+    else{descEl.innerHTML=CONFIG.descPremiumHigh;latteEl.classList.add('hidden');}
   }
 }
 
 function buildTable(){
-  const tb=document.getElementById('tBody'); tb.innerHTML='';
-  const wk=parseInt(document.getElementById('weeklySlider').value), gr=wk*WEEKS;
+  const tb=document.getElementById('tBody');tb.innerHTML='';
+  const wk=parseInt(document.getElementById('weeklySlider').value),gr=wk*WEEKS;
   const r1=document.createElement('tr');
   r1.innerHTML=`<td>Conventional grocery vegetables<br><span style="font-size:.78rem;font-style:italic;color:#7A6E5E">$${wk}/wk &times; ${WEEKS} weeks</span></td><td class="amt" style="color:#7A6E5E">$${(gr/SF).toFixed(0)}/yr</td><td class="amt">$${gr.toFixed(2)}</td><td style="font-size:.78rem;color:#7A6E5E">Market</td>`;
   tb.appendChild(r1);
   CONFIG.addons.forEach(a=>{
-    const s=getAS(a), tr=document.createElement('tr');
-    if(!a.on) tr.classList.add('off');
-    tr.innerHTML=`<td>${a.name}<br><span style="font-size:.78rem;font-style:italic;color:#7A6E5E">${a.pct}% dietary attribution</span></td><td class="amt" style="color:#7A6E5E">$${a.annual}/yr</td><td class="amt">${a.on?'$'+s.toFixed(2):'&mdash;'}</td><td style="font-size:.78rem;color:#7A6E5E">${a.source}</td>`;
+    const s=addonVals[a.id]||0,tr=document.createElement('tr');
+    if(!a.on)tr.classList.add('off');
+    tr.innerHTML=`<td>${a.name}<br><span style="font-size:.78rem;font-style:italic;color:#7A6E5E">your adjusted allocation</span></td><td class="amt" style="color:#7A6E5E">—</td><td class="amt">${a.on?'$'+s.toFixed(2):'&mdash;'}</td><td style="font-size:.78rem;color:#7A6E5E">${a.source}</td>`;
     tb.appendChild(tr);
   });
-  const tot=getFullCost();
-  const tr2=document.createElement('tr'); tr2.className='trow';
+  const tot=getFullCost(),tr2=document.createElement('tr');tr2.className='trow';
   tr2.innerHTML=`<td><strong>Conventional total</strong></td><td></td><td class="amt">$${tot.toFixed(2)}</td><td></td>`;
   tb.appendChild(tr2);
-  const tr3=document.createElement('tr'); tr3.className='crow';
+  const tr3=document.createElement('tr');tr3.className='crow';
   tr3.innerHTML=`<td><strong>Crooked Farmz CSA</strong></td><td></td><td class="amt">$${CF.toFixed(2)}</td><td></td>`;
   tb.appendChild(tr3);
 }
@@ -705,14 +732,7 @@ function buildTable(){
 function update(){
   const wk=parseInt(document.getElementById('weeklySlider').value);
   document.getElementById('sliderReadout').textContent='$'+wk+'/wk';
-  CONFIG.addons.forEach(a=>{
-    const el=document.getElementById('ta-'+a.id);
-    if(el) el.textContent=a.on?'$'+getAS(a).toFixed(2):'—';
-  });
-  updateNumber();
-  updateBars();
-  buildTable();
-  renderArgParas(); // re-inject live number into philosophy text
+  updateNumber();updateBars();buildTable();renderArgParas();
 }
 
 /* ── share ── */
@@ -721,32 +741,19 @@ function openFBShare(){
   return false;
 }
 function saveAsImage(){
-  const btn=document.getElementById('saveImgBtn');
-  const orig=btn.innerHTML;
+  const btn=document.getElementById('saveImgBtn'),orig=btn.innerHTML;
   btn.textContent='Saving...';
-  html2canvas(document.getElementById('resultsCard'),{
-    backgroundColor:'#F7F4EE',scale:2,useCORS:true,
-    ignoreElements:el=>el.classList.contains('share-bar')
-  }).then(canvas=>{
-    const a=document.createElement('a');
-    a.download='crooked-farmz-real-price.png';
-    a.href=canvas.toDataURL('image/png');
-    a.click();
-    btn.innerHTML=orig;
-  }).catch(()=>{ btn.innerHTML=orig; });
+  html2canvas(document.getElementById('resultsCard'),{backgroundColor:'#F7F4EE',scale:2,useCORS:true,ignoreElements:el=>el.classList.contains('share-bar')})
+  .then(canvas=>{const a=document.createElement('a');a.download='crooked-farmz-real-price.png';a.href=canvas.toDataURL('image/png');a.click();btn.innerHTML=orig;})
+  .catch(()=>{btn.innerHTML=orig;});
 }
 
 /* ── boot ── */
 function boot(){
-  buildNav();
-  buildStrips();
-  buildHero();
-  buildDivider();
-  renderText();
-  buildToggles();
+  buildNav();buildStrips();buildHero();buildDivider();
+  renderText();buildToggles();
   document.getElementById('weeklySlider').addEventListener('input',update);
-  update();
-  setTimeout(updateBars,150);
+  update();setTimeout(updateBars,150);
 }
 boot();
 </script>
