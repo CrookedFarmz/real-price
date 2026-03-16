@@ -8,7 +8,7 @@
 
 <script>
 /* ============================================================
-   CROOKED FARMZ — THE REAL PRICE OF VEGETABLES  v2
+   CROOKED FARMZ — THE REAL PRICE OF VEGETABLES  v3
    CONFIG BLOCK — edit everything here, touch nothing else
 
    HTML FORMATTING in any field:
@@ -17,15 +17,19 @@
      Underline:   <u>your text</u>
      Line break:  <br>
      Combined:    <strong><em>bold italic</em></strong>
+
+   DYNAMIC NUMBER TOKEN:
+     Use {{WEEKLY_NUMBER}} anywhere in argumentParagraphs
+     to insert the live calculated weekly figure.
    ============================================================ */
 
 const CONFIG = {
 
-  /* ── IMAGES ────────────────────────────────────────────────
-     Upload images to your GitHub repo and set URLs here.
-     Hero: wide crop, ideally 1400×600px or similar landscape.
-     Section image: appears before the Fukuoka section, 900×400px works well.
-     Logo: appears at bottom of page above footer.
+  /* ── IMAGES ─────────────────────────────────────────────────
+     Upload to GitHub repo and set URLs here.
+     Hero:    wide landscape, ideally 1400×600px
+     Section: divider before Philosophy section, 900×400px
+     Logo:    appears at bottom above footer
   ──────────────────────────────────────────────────────────── */
   heroImageUrl:    "https://crookedfarmz.github.io/real-price/hero.jpg",
   heroImageAlt:    "Crooked Farmz — East York microfarm",
@@ -35,34 +39,33 @@ const CONFIG = {
   logoAlt:         "Crooked Farmz",
   logoFallback:    "Crooked Farmz",
 
-  /* ── SECTION NAVIGATION LABELS ─────────────────────────────
-     Five sections. Label and colour for each.
-     Colours follow the CSA seasonal palette.
+  /* ── SECTION NAVIGATION ─────────────────────────────────────
+     Five sections. Label and colour for the sidebar nav.
   ──────────────────────────────────────────────────────────── */
   sections: [
-    { id:"s-intro",    num:1, label:"Introduction",    color:"#4A7C25" },
-    { id:"s-app",      num:2, label:"The Calculator",  color:"#2D5016" },
-    { id:"s-results",  num:3, label:"Your Numbers",    color:"#C8A96E" },
-    { id:"s-cta",      num:4, label:"Join the CSA",    color:"#8B3A1A" },
-    { id:"s-argument", num:5, label:"The Science",     color:"#1C1208" }
+    { id:"s-intro",    num:1, label:"Introduction",   color:"#4A7C25" },
+    { id:"s-app",      num:2, label:"The Calculator", color:"#2D5016" },
+    { id:"s-results",  num:3, label:"Your Numbers",   color:"#C8A96E" },
+    { id:"s-cta",      num:4, label:"Join the CSA",   color:"#8B3A1A" },
+    { id:"s-argument", num:5, label:"The Philosophy", color:"#1C1208" }
   ],
 
-  /* ── MASTHEAD ───────────────────────────────────────────── */
+  /* ── MASTHEAD ────────────────────────────────────────────── */
   eyebrow:  "2026 Vegetable CSA · Toronto",
   headline: "The Real Price<br>of Vegetables",
   deck:     "Yes, our CSA costs more at the checkout.<br>Here's what that actually means.",
 
   /* ── HONEST PREMISE ─────────────────────────────────────── */
-  premiseHTML: `<strong>Let's be honest with each other.</strong> A comparable weekly haul of vegetables at Metro or Loblaws costs roughly $30–40. Our CSA is $49.95 a box. We're not going to pretend otherwise. What we're asking is that you price the whole picture — including what you spend to make up for what industrial food doesn't give you. Adjust the numbers below to match your household. See what you find.`,
+  premiseHTML: `<strong>Let's be honest with each other.</strong> A comparable weekly haul of vegetables at the supermarket costs roughly $30–40. Our CSA is $49.95 a box. We're not going to pretend otherwise. What we're asking is that you price the whole picture — including what you spend to make up for what industrial food doesn't give you. Adjust the numbers below to match your household. See what you find.`,
 
   /* ── SLIDER ─────────────────────────────────────────────── */
-  sliderLabel:    "What you spend at Metro / Loblaws / Sobeys for a comparable weekly haul",
+  sliderLabel:    "What you spend at the supermarket for a comparable weekly haul",
   sliderFootnote: "Statistics Canada 2023: average Toronto household spends ~$35–45/week on fresh produce. Adjust to your reality.",
   sliderMin:     25,
   sliderMax:     55,
   sliderDefault: 35,
 
-  /* ── TOGGLE ITEMS (with dollar values) ─────────────────────
+  /* ── QUANTITATIVE TOGGLES ───────────────────────────────────
      annual = estimated household annual spend in CAD
      pct    = % attributed to dietary quality
      on     = true means checked by default
@@ -101,9 +104,8 @@ const CONFIG = {
     }
   ],
 
-  /* ── QUALITATIVE TOGGLES (no dollar value) ──────────────────
-     These toggle on/off but don't change the number.
-     They add weight to the argument, not the math.
+  /* ── QUALITATIVE TOGGLES ────────────────────────────────────
+     No dollar value — add weight to the argument, not the math.
      locked = true means cannot be toggled off.
   ──────────────────────────────────────────────────────────── */
   qualToggles: [
@@ -117,13 +119,13 @@ const CONFIG = {
     {
       id: "environment",
       name: "Environmental cost of industrial food",
-      detail: `Industrial agriculture externalizes its true costs onto the commons — soil carbon depletion, synthetic fertilizer runoff, dead zones in waterways, biodiversity collapse, greenhouse gas emissions from tillage. <strong>These costs are real. They are not priced into the $3.99 tomato.</strong><br><br>When Crooked Farmz grows food in living soil using compost tea, cover crops, and no-dig practices, it sequesters carbon, rebuilds microbial diversity, and protects the watershed. That value is not reflected in our price either — but it belongs in any honest accounting of what food actually costs.<br><br><u>This category cannot be toggled off. The environmental cost of industrial food exists whether or not we choose to see it.</u>`,
+      detail: `Industrial agriculture externalizes its true costs onto the commons — soil carbon depletion, synthetic fertilizer runoff, dead zones in waterways, biodiversity collapse, greenhouse gas emissions from tillage. <strong>These costs are real. They are not priced into the supermarket tomato.</strong><br><br>When Crooked Farmz grows food in living soil using compost tea, cover crops, and no-dig practices, it sequesters carbon, rebuilds microbial diversity, and protects the watershed. That value is not reflected in our price either — but it belongs in any honest accounting of what food actually costs.<br><br><em>This category cannot be toggled off. The environmental cost of industrial food exists whether or not we choose to see it.</em>`,
       on: true,
       locked: true
     }
   ],
 
-  /* ── THE NUMBER CALLOUT ──────────────────────────────────── */
+  /* ── THE NUMBER CALLOUT ─────────────────────────────────── */
   numberLabelPremium: "Your real weekly premium for a Crooked Farmz farm share",
   numberLabelSaving:  "Your weekly saving with a Crooked Farmz farm share",
   descPremiumLow:  "That's your real weekly premium once you account for what industrial food costs you downstream — supplements, medicines, digestive aids. <em>Less than a latte. For food that works as medicine.</em>",
@@ -132,44 +134,45 @@ const CONFIG = {
   latteLine:       "Less than a latte. For food that works as medicine.",
 
   /* ── SHARE CARD ─────────────────────────────────────────── */
-  shareCardTitle:   "The Real Price of Vegetables",
-  shareUrl:         "https://crookedfarmz.github.io/real-price/",
-  shareText:        "I just ran the full-cost comparison between a Crooked Farmz CSA and conventional grocery shopping. The result surprised me.",
+  shareUrl:  "https://crookedfarmz.github.io/real-price/",
+  shareText: "I just ran the full-cost comparison between a Crooked Farmz CSA and conventional grocery shopping. The result surprised me.",
 
   /* ── CTA BLOCK ───────────────────────────────────────────── */
-  ctaPre:        "2026 CSA — limited shares available",
-  ctaMain:       "Thursday mornings. Harvested that day.<br>East York pickup and delivery.",
-  ctaSub:        "20 weeks · $999 full share · $525 alternating share",
-  ctaButtonText: "Subscribe for 2026 →",
-  ctaButtonUrl:  "https://crookedfarmz.localline.ca",
+  ctaPre:           "2026 CSA — limited shares available",
+  ctaMain:          "Thursday mornings. Harvested that day.<br>East York pickup and delivery.",
+  ctaSub:           "20 weeks · $999 full share · $525 alternating share",
+  ctaButtonText:    "Subscribe for 2026 →",
+  ctaButtonUrl:     "https://crookedfarmz.localline.ca",
   ctaSecondaryText: "Learn more about Crooked Farmz →",
   ctaSecondaryUrl:  "https://crookedfarmz.net",
 
-  /* ── ARGUMENT SECTION ────────────────────────────────────── */
+  /* ── PHILOSOPHY SECTION ──────────────────────────────────────
+     Use {{WEEKLY_NUMBER}} to inject the live calculated figure.
+  ──────────────────────────────────────────────────────────── */
   argumentHeadline: "Food and medicine are not two different things.",
   fukuokaQuote:  "Chemically grown vegetables may be eaten for food, but they cannot be used as medicine.",
   fukuokaAttrib: "Masanobu Fukuoka, <em>The One-Straw Revolution</em>, 1978",
 
   argumentParagraphs: [
-    `Fukuoka wasn't being poetic. He was being precise. A vegetable grown in living, microbially-rich soil is structurally different from one grown in chemically-managed dirt. The plant's root system communicates with the soil microbiome through <strong>rhizophagy</strong> — actively drawing up not just nitrogen and phosphorus, but the full chain of secondary metabolites, trace minerals, and signalling compounds that make food function as medicine in the body.`,
+    `Fukuoka wasn't being poetic. He was being precise. A vegetable grown in living, microbially-rich soil is different at a biological level from one grown in chemically-managed dirt. Through a process called <strong>rhizophagy</strong>, plant roots actively cultivate soil microbes — drawing up trace minerals, secondary metabolites, and signalling compounds that synthetic fertilizer simply cannot supply. This is what makes food function as medicine.`,
 
-    `When you disrupt that communication network with synthetic fertilizers and broad-spectrum pesticides, you get a vegetable that looks right. It has roughly the correct amount of water and carbohydrate. But it is missing the invisible library of compounds the plant was supposed to assemble. <em>You ate food. You did not receive medicine.</em>`,
+    `Disrupt that relationship — with herbicides, synthetic nitrogen, or deep tillage — and you still get a vegetable. It will look right and weigh right. But it is missing the library of compounds the plant was supposed to build. <em>You ate food. You did not receive medicine.</em>`,
 
-    `So where does the rest of the cost go? It goes to the supplement aisle. It goes to the antacids. It goes to the OTC medicines compensating for a gut microbiome that never received the live microbial diversity that soil-grown food carries. The most commonly purchased supplements in Canada — vitamin D, magnesium, B12, probiotics, zinc — are <u>precisely the nutrients most depleted by industrial soil management</u>.`,
+    `The cost doesn't disappear — it migrates. It shows up in the supplement aisle, in the antacids, in the OTC medicines we buy to compensate for a gut that never received what soil-grown food used to give it freely. The most commonly purchased supplements in Canada — vitamin D, magnesium, B12, probiotics, zinc — are the nutrients most depleted by industrial soil management. We are paying twice: once at the supermarket, once at the pharmacy.`,
 
-    `The gut-brain axis runs deeper still. Serotonin — the neurotransmitter most associated with mood regulation — is produced overwhelmingly in the gut, not the brain. A gut microbiome impoverished by industrial food is a gut microbiome producing less of what the brain needs. The supplement industry has noticed: probiotic sales in Canada grew 18% in 2023 alone. We are paying to repair downstream what was broken upstream.`,
+    `The gut-brain connection adds another layer. Most of the body's serotonin is produced in the gut, not the brain. A microbiome fed on depleted food produces less of what the mind needs. This isn't fringe science — it's why probiotic sales in Canada grew 18% in 2023 alone.`,
 
-    `The tool above doesn't claim that all of your supplement spending is caused by industrial food. It claims a <strong>defensible share</strong> of it is. Adjust the numbers to match your household. The argument stands or falls on your own arithmetic.`,
+    `This tool doesn't claim that all of your supplement spending is caused by industrial food. It claims a <strong>defensible share</strong> of it is. The numbers are yours to adjust. The argument stands or falls on your own arithmetic.`,
 
-    `What we've found, running the numbers honestly: once you account for that hidden receipt, the real weekly premium for Crooked Farmz vegetables lands around <strong>$7.45</strong> — at typical household assumptions. That's the price of flavour, freshness, a farm in your city, and a small but real act of climate accountability every Thursday. We think that's fair. We'll let you decide.`
+    `What we found, running it honestly: once you account for that hidden receipt, your real weekly figure for choosing Crooked Farmz over the full-cost conventional path is <strong>{{WEEKLY_NUMBER}}</strong> — at your current assumptions. That's the price of flavour, freshness, a farm in your city, and a small act of climate accountability every Thursday. We think that's fair. We'll let you decide.`
   ],
 
   sourcesHTML: `<strong>Sources:</strong> Statistics Canada Survey of Household Spending 2023 (household health care spending; non-prescribed medicines +29.6% category growth). Grand View Research 2024 (Canadian dietary supplements market ÷ 14.4M households ≈ $310 CAD/household/yr). OECD 2021 (OTC pharmaceutical spend per capita, converted CAD 2024). CIHI/CUPE 2024 (average Canadian household prescription drug and private health premium spending). Attribution rates are conservative estimates from published research linking soil health, nutrient density, gut microbiome diversity, and preventable chronic disease burden. <u>This is a full-cost accounting framework — not a medical claim.</u>`,
 
   /* ── FOOTER ──────────────────────────────────────────────── */
-  footerHTML: `Crooked Farmz · East York · Toronto · Treaty 13 territory · Dish With One Spoon wampum<br>
+  footerHTML: `Crooked Farmz · East York, ON<br>
     <a href="https://crookedfarmz.net">crookedfarmz.net</a> · info@crookedfarmz.net · 416.669.1997<br>
-    <em>We must heal the soil. It's that simple.</em>`
+    <em>"We must heal the soil. It's that simple."</em>`
 
 };
 /* ============================================================
@@ -189,25 +192,12 @@ const CONFIG = {
   --body:'Source Serif 4',Georgia,serif;
   --nav-w:160px;
 }
-
 html{scroll-behavior:smooth}
 body{font-family:var(--body);background:var(--bg);color:var(--tx);line-height:1.75;padding:0;margin:0;font-size:17px}
 
 /* ── SIDEBAR NAV ── */
-.sidenav{
-  position:fixed;left:0;top:50%;transform:translateY(-50%);
-  width:var(--nav-w);z-index:100;
-  padding:1rem 0;
-  display:flex;flex-direction:column;gap:4px;
-}
-.snav-item{
-  display:flex;align-items:center;gap:8px;
-  padding:6px 12px 6px 0;
-  cursor:pointer;
-  text-decoration:none;
-  opacity:0.45;
-  transition:opacity 0.2s;
-}
+.sidenav{position:fixed;left:0;top:50%;transform:translateY(-50%);width:var(--nav-w);z-index:100;padding:1rem 0;display:flex;flex-direction:column;gap:4px}
+.snav-item{display:flex;align-items:center;gap:8px;padding:6px 12px 6px 0;cursor:pointer;text-decoration:none;opacity:0.45;transition:opacity 0.2s}
 .snav-item:hover{opacity:0.85}
 .snav-item.active{opacity:1}
 .snav-bar{width:4px;height:32px;border-radius:0 3px 3px 0;flex-shrink:0;transition:width 0.2s}
@@ -215,57 +205,25 @@ body{font-family:var(--body);background:var(--bg);color:var(--tx);line-height:1.
 .snav-label{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--tx);line-height:1.2;white-space:nowrap}
 .snav-num{font-family:var(--serif);font-size:11px;color:var(--txmu);margin-right:1px}
 
-/* mobile: top progress bar */
-.mobile-nav{
-  display:none;
-  position:fixed;top:0;left:0;width:100%;height:5px;
-  z-index:200;flex-direction:row;
-}
+/* mobile progress bar */
+.mobile-nav{display:none;position:fixed;top:0;left:0;width:100%;height:5px;z-index:200;flex-direction:row}
 .mob-seg{flex:1;opacity:0.35;transition:opacity 0.2s}
 .mob-seg.active{opacity:1}
 
-/* ── MAIN CONTENT ── */
-.pw{
-  max-width:700px;
-  margin:0 auto 0 var(--nav-w);
-  padding:0 1.5rem 4rem;
-}
+/* ── LAYOUT ── */
+.pw{max-width:700px;margin:0 auto 0 var(--nav-w);padding:0 1.5rem 4rem}
+.section-anchor{padding-top:2.5rem}
 
-/* ── HERO IMAGE ── */
-.hero-img{
-  width:calc(100% + 3rem);
-  margin-left:-1.5rem;
-  display:block;
-  max-height:420px;
-  object-fit:cover;
-  object-position:center;
-}
-.hero-img-placeholder{
-  width:calc(100% + 3rem);
-  margin-left:-1.5rem;
-  height:300px;
-  background:linear-gradient(135deg,#2D5016 0%,#4A7C25 50%,#C8A96E 100%);
-  display:flex;align-items:center;justify-content:center;
-}
-.hero-img-placeholder span{font-family:var(--serif);font-size:1rem;color:rgba(255,255,255,0.6);font-style:italic}
+/* ── HERO ── */
+.hero-img{width:calc(100% + 3rem);margin-left:-1.5rem;display:block;max-height:420px;object-fit:cover;object-position:center}
+.hero-placeholder{width:calc(100% + 3rem);margin-left:-1.5rem;height:300px;background:linear-gradient(135deg,#2D5016 0%,#4A7C25 50%,#C8A96E 100%);display:flex;align-items:center;justify-content:center}
+.hero-placeholder span{font-family:var(--serif);font-size:1rem;color:rgba(255,255,255,0.6);font-style:italic}
 
-/* ── SECTION ANCHORS ── */
-.section-anchor{
-  padding-top:2.5rem;
-  margin-top:0;
-}
-
-/* ── SECTION LABEL STRIP ── */
-.section-strip{
-  display:flex;align-items:center;gap:12px;
-  margin-bottom:1.75rem;
-  padding-bottom:1rem;
-  border-bottom:1px solid var(--bd);
-}
+/* ── SECTION STRIP ── */
+.section-strip{display:flex;align-items:center;gap:12px;margin-bottom:1.75rem;padding-bottom:1rem;border-bottom:1px solid var(--bd)}
 .strip-bar{width:5px;height:44px;border-radius:3px;flex-shrink:0}
 .strip-num{font-family:var(--serif);font-size:2rem;font-weight:600;color:var(--bd);line-height:1;flex-shrink:0}
 .strip-label{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--txmu);line-height:1.3}
-.strip-title{font-family:var(--serif);font-size:1.05rem;font-weight:600;color:var(--tx);line-height:1.2;margin-top:1px}
 
 /* ── MASTHEAD ── */
 .mast{text-align:center;margin-bottom:2rem}
@@ -280,6 +238,7 @@ body{font-family:var(--body);background:var(--bg);color:var(--tx);line-height:1.
 
 /* ── LABELS ── */
 .slbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--txmu);font-weight:600;margin-bottom:.6rem;display:block}
+.tog-group-head{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--txmu);font-weight:600;margin:1.5rem 0 .6rem;display:block}
 
 /* ── SLIDER ── */
 .slider-block{margin-bottom:1.75rem}
@@ -291,41 +250,33 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
 input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--gd);cursor:pointer;border:3px solid var(--bg)}
 .sfn{font-size:.85rem;color:var(--txmu);margin-top:.4rem;font-style:italic}
 
-/* ── TOGGLE ITEMS ── */
-.tog-section-label{font-size:1rem;color:var(--txm);margin-bottom:.75rem;line-height:1.6}
-.tog-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
-.tog-group-head{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--txmu);font-weight:600;margin:1.25rem 0 .6rem;display:block}
+/* ── TOGGLE CARDS ── */
+.tog-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:.5rem}
 
 .ti{display:flex;align-items:flex-start;gap:12px;padding:.85rem 1rem;border:1px solid var(--bd);border-radius:6px;background:var(--bgc);cursor:pointer;transition:border-color .15s,background .15s;user-select:none}
-.ti:hover:not(.locked){border-color:var(--gm)}
+.ti:hover:not(.ti-locked){border-color:var(--gm)}
 .ti.on{border-color:var(--gd);background:#fff}
-.ti.locked{cursor:default}
-.ti.locked-on{border-color:var(--ru);background:#fff3ee;cursor:default}
+.ti.ti-locked{border-color:var(--gd);background:#fff;cursor:default}
 
 .tchk{width:18px;height:18px;border:1.5px solid var(--bd);border-radius:3px;flex-shrink:0;margin-top:3px;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .15s}
 .ti.on .tchk{background:var(--gd);border-color:var(--gd)}
-.ti.locked-on .tchk{background:var(--ru);border-color:var(--ru)}
+.ti.ti-locked .tchk{background:var(--gd);border-color:var(--gd)}
 .tchk svg{opacity:0;transition:opacity .1s}
-.ti.on .tchk svg,.ti.locked-on .tchk svg{opacity:1}
+.ti.on .tchk svg{opacity:1}
+.ti.ti-locked .tchk svg{opacity:1}
 
 .tn{font-size:.95rem;font-weight:600;color:var(--tx);line-height:1.3}
-.td{font-size:.82rem;color:var(--txmu);line-height:1.55;margin-top:3px}
-.ta{margin-left:auto;flex-shrink:0;font-family:var(--serif);font-size:.95rem;font-weight:600;color:var(--txmu);padding-left:10px;transition:color .15s;white-space:nowrap}
+.td{font-size:.82rem;color:var(--txmu);line-height:1.6;margin-top:4px}
+.ta{margin-left:auto;flex-shrink:0;font-family:var(--serif);font-size:.95rem;font-weight:600;color:var(--txmu);padding-left:10px;transition:color .15s;white-space:nowrap;text-align:right}
 .ti.on .ta{color:var(--ru)}
-.ta.qualitative{font-size:.75rem;font-style:italic;color:var(--txmu);text-align:right;max-width:90px;line-height:1.3;padding-top:2px}
-.lock-badge{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ru);font-weight:600;margin-top:3px;display:block}
+.ta.qual{font-size:.75rem;font-style:italic;color:var(--txmu);max-width:80px;line-height:1.3;padding-top:2px}
+.lock-badge{display:inline-block;font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--ru);font-weight:600;margin-top:5px;border:1px solid var(--ru);border-radius:3px;padding:1px 5px}
 
 /* ── RESULTS CARD ── */
-.results-card{
-  background:#fff;
-  border:1.5px solid var(--bd);
-  border-radius:10px;
-  overflow:hidden;
-  margin:1.75rem 0;
-  position:relative;
-}
-.results-card-inner{padding:1.5rem}
+.results-card{background:#fff;border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;margin:1.75rem 0}
+.results-inner{padding:1.5rem}
 
+/* ── THE NUMBER ── */
 .nr{border-top:1.5px solid var(--tx);border-bottom:1.5px solid var(--tx);padding:1.75rem 1rem;text-align:center;margin-bottom:1.5rem;background:var(--bg)}
 .nrlbl{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--txmu);margin-bottom:.5rem;display:block}
 .num{font-family:var(--serif);font-size:clamp(3rem,12vw,5.5rem);font-weight:600;line-height:1;color:var(--ru);display:block;margin-bottom:.5rem;transition:color .3s}
@@ -334,7 +285,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .nrlatte{font-size:.87rem;color:var(--txmu);margin-top:.6rem;font-style:italic}
 .nrlatte.hidden{display:none}
 
-/* bars */
+/* ── BARS ── */
 .barchart{display:flex;flex-direction:column;gap:11px;margin-bottom:1rem}
 .brow{display:flex;align-items:center;gap:9px}
 .brl{font-size:.82rem;color:var(--txm);width:115px;flex-shrink:0;line-height:1.3}
@@ -348,7 +299,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .leg{display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--txmu)}
 .lsq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 
-/* table */
+/* ── TABLE ── */
 .bt{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:1.25rem}
 .bt th{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--txmu);font-weight:600;padding:5px 8px;border-bottom:1px solid var(--bd);text-align:left}
 .bt td{padding:7px 8px;border-bottom:1px solid var(--bgc);color:var(--txm);vertical-align:top;line-height:1.4}
@@ -359,51 +310,30 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .bt tr.crow td.amt{color:#fff}
 .bt tr.off td{opacity:.35}
 
-/* share buttons */
-.share-bar{
-  display:flex;justify-content:flex-end;gap:8px;
-  padding:.85rem 1rem;
-  border-top:1px solid var(--bgc);
-  background:var(--bgc);
-}
-.share-btn{
-  font-size:.75rem;font-weight:600;
-  padding:6px 14px;border-radius:4px;
-  border:1px solid var(--bd);
-  background:#fff;color:var(--txm);
-  cursor:pointer;display:flex;align-items:center;gap:6px;
-  transition:background .15s,border-color .15s;
-  text-decoration:none;
-  font-family:var(--body);
-}
+/* ── SHARE BAR ── */
+.share-bar{display:flex;justify-content:flex-end;gap:8px;padding:.85rem 1rem;border-top:1px solid var(--bgc);background:var(--bgc)}
+.share-btn{font-size:.75rem;font-weight:600;padding:6px 14px;border-radius:4px;border:1px solid var(--bd);background:#fff;color:var(--txm);cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .15s,border-color .15s;text-decoration:none;font-family:var(--body)}
 .share-btn:hover{background:var(--stl);border-color:var(--st)}
 .share-btn.fb{background:#1877F2;color:#fff;border-color:#1877F2}
 .share-btn.fb:hover{background:#166fe5}
-.share-btn svg{flex-shrink:0}
 
 /* ── SECTION DIVIDER IMAGE ── */
-.divider-img-wrap{
-  margin:2.5rem -1.5rem;
-}
+.divider-wrap{margin:2.5rem -1.5rem}
 .divider-img{width:100%;max-height:320px;object-fit:cover;object-position:center;display:block}
-.divider-img-placeholder{
-  width:100%;height:200px;
-  background:linear-gradient(90deg,#1C1208 0%,#2D5016 100%);
-  display:flex;align-items:center;justify-content:center;
-}
-.divider-img-placeholder span{font-family:var(--serif);font-size:1rem;color:rgba(255,255,255,0.5);font-style:italic}
+.divider-placeholder{width:100%;height:180px;background:linear-gradient(90deg,#1C1208 0%,#2D5016 100%);display:flex;align-items:center;justify-content:center}
+.divider-placeholder span{font-family:var(--serif);font-size:1rem;color:rgba(255,255,255,0.45);font-style:italic}
 
 /* ── CTA ── */
-.cta{text-align:center;padding:2rem 1.5rem;background:var(--gd);border-radius:8px;margin-bottom:0}
+.cta{text-align:center;padding:2rem 1.5rem;background:var(--gd);border-radius:8px}
 .cta-pre{font-size:10px;color:#a8c97f;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.6rem}
 .cta-main{font-family:var(--serif);font-size:clamp(1.2rem,3.5vw,1.6rem);color:#fff;margin-bottom:.5rem;line-height:1.3;font-style:italic}
 .cta-sub{font-size:.88rem;color:#a8c97f;margin-bottom:1.25rem;font-style:italic}
-.cta-btn{display:inline-block;background:var(--st);color:var(--tx);font-family:var(--body);font-size:.95rem;font-weight:600;letter-spacing:.04em;padding:.8rem 2rem;border-radius:4px;text-decoration:none;cursor:pointer;border:none;transition:background .15s;margin-bottom:.6rem}
+.cta-btn{display:inline-block;background:var(--st);color:var(--tx);font-family:var(--body);font-size:.95rem;font-weight:600;letter-spacing:.04em;padding:.8rem 2rem;border-radius:4px;text-decoration:none;transition:background .15s}
 .cta-btn:hover{background:#ddb95a}
-.cta-sec{display:block;font-size:.82rem;color:#a8c97f;text-decoration:underline;cursor:pointer;margin-top:.5rem}
+.cta-sec{display:block;font-size:.82rem;color:#a8c97f;text-decoration:underline;cursor:pointer;margin-top:.75rem}
 .cta-sec:hover{color:#fff}
 
-/* ── ARGUMENT ── */
+/* ── PHILOSOPHY ── */
 .arg{padding-top:0}
 .arg h2{font-family:var(--serif);font-size:1.6rem;font-weight:600;color:var(--tx);margin-bottom:1rem;line-height:1.3}
 .arg p{font-size:1rem;color:var(--txm);line-height:1.85;margin-bottom:1.1rem}
@@ -414,12 +344,12 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .sources strong{font-weight:600;color:var(--txm)}
 
 /* ── LOGO BOTTOM ── */
-.logo-bottom{text-align:center;padding:2rem 0 1.5rem;border-top:1px solid var(--bd);margin-top:2.5rem}
-.logo-bottom img{max-height:80px;max-width:260px;object-fit:contain}
-.logo-fallback-b{font-family:var(--serif);font-size:1.4rem;font-weight:600;color:var(--gd)}
+.logo-bottom{text-align:center;padding:2.5rem 0 1.5rem;border-top:1px solid var(--bd);margin-top:2.5rem}
+.logo-bottom img{max-height:160px;max-width:400px;object-fit:contain}
+.logo-fallback-b{font-family:var(--serif);font-size:1.6rem;font-weight:600;color:var(--gd)}
 
 /* ── FOOTER ── */
-.pgfoot{text-align:center;padding-top:1rem;padding-bottom:2rem;font-size:.78rem;color:var(--txmu);font-style:italic;line-height:1.8}
+.pgfoot{text-align:center;padding-top:1rem;padding-bottom:2.5rem;font-size:.82rem;color:var(--txmu);font-style:italic;line-height:1.9}
 .pgfoot a{color:var(--gm);text-decoration:none}
 
 /* ── RESPONSIVE ── */
@@ -433,46 +363,33 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 @media(max-width:480px){
   .pw{padding:0 1rem 3rem}
   .brl{width:90px}
-  .results-card-inner{padding:1rem}
+  .results-inner{padding:1rem}
 }
 </style>
 </head>
 <body>
 
-<!-- MOBILE PROGRESS BAR -->
 <div class="mobile-nav" id="mobileNav"></div>
-
-<!-- FIXED SIDEBAR NAV -->
 <nav class="sidenav" id="sideNav"></nav>
 
 <div class="pw">
 
-  <!-- ══ SECTION 1: INTRODUCTION ══ -->
+  <!-- ══ 1: INTRODUCTION ══ -->
   <div class="section-anchor" id="s-intro">
-
-    <!-- Hero image -->
     <div id="heroWrap"></div>
-
-    <!-- Section strip -->
     <div class="section-strip" id="strip-1"></div>
-
-    <!-- Masthead -->
     <div class="mast">
       <span class="eyebrow" id="eyebrow"></span>
       <h1 id="headline"></h1>
       <p class="deck" id="deck"></p>
     </div>
-
-    <!-- Premise -->
     <div class="premise"><p id="premise"></p></div>
+  </div>
 
-  </div><!-- /s-intro -->
-
-  <!-- ══ SECTION 2: THE CALCULATOR ══ -->
+  <!-- ══ 2: THE CALCULATOR ══ -->
   <div class="section-anchor" id="s-app">
     <div class="section-strip" id="strip-2"></div>
 
-    <!-- Slider -->
     <div class="slider-block">
       <span class="slbl">Step 1 — Set your weekly grocery baseline</span>
       <div class="sh">
@@ -483,25 +400,20 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <p class="sfn" id="sliderFn"></p>
     </div>
 
-    <!-- Quantitative toggles -->
     <span class="slbl">Step 2 — Add what you spend to compensate</span>
-    <p class="tog-section-label" id="togIntro"></p>
     <div class="tog-grid" id="togGrid"></div>
 
-    <!-- Qualitative toggles -->
     <span class="tog-group-head">Step 3 — Consider what can't be priced</span>
     <div class="tog-grid" id="qualGrid"></div>
+  </div>
 
-  </div><!-- /s-app -->
-
-  <!-- ══ SECTION 3: YOUR NUMBERS ══ -->
+  <!-- ══ 3: YOUR NUMBERS ══ -->
   <div class="section-anchor" id="s-results">
     <div class="section-strip" id="strip-3"></div>
 
     <div class="results-card" id="resultsCard">
-      <div class="results-card-inner">
+      <div class="results-inner">
 
-        <!-- The Number -->
         <div class="nr">
           <span class="nrlbl" id="nrLabel"></span>
           <span class="num" id="theNum">—</span>
@@ -509,7 +421,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
           <p class="nrlatte hidden" id="nrLatte"></p>
         </div>
 
-        <!-- Bars -->
         <span class="slbl">20-week season — side by side</span>
         <div class="barchart">
           <div class="brow"><div class="brl">Crooked Farmz CSA</div><div class="btrack"><div class="bfill cf" id="bCF" style="width:0%"><span class="bdol" id="lCF"></span></div></div></div>
@@ -522,7 +433,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
           <span class="leg"><span class="lsq" style="background:#8B3A1A"></span>Conventional full-cost</span>
         </div>
 
-        <!-- Table -->
         <table class="bt">
           <thead><tr>
             <th style="width:44%">Category</th>
@@ -533,24 +443,22 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
           <tbody id="tBody"></tbody>
         </table>
 
-      </div><!-- /results-card-inner -->
+      </div>
 
-      <!-- Share bar -->
       <div class="share-bar">
         <button class="share-btn" id="saveImgBtn" onclick="saveAsImage()">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3.5 6l3 3 3-3M1 10.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Save as image
         </button>
-        <a class="share-btn fb" id="fbShareBtn" href="#" target="_blank" onclick="return openFBShare()">
+        <a class="share-btn fb" href="#" target="_blank" onclick="return openFBShare()">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M8.5 1.5H7a2 2 0 00-2 2v1.5H3.5V7H5v5h2V7h1.5L9 5H7V3.5c0-.28.22-.5.5-.5H8.5V1.5z" fill="white"/></svg>
           Share on Facebook
         </a>
       </div>
-    </div><!-- /results-card -->
+    </div>
+  </div>
 
-  </div><!-- /s-results -->
-
-  <!-- ══ SECTION 4: CALL TO ACTION ══ -->
+  <!-- ══ 4: JOIN THE CSA ══ -->
   <div class="section-anchor" id="s-cta">
     <div class="section-strip" id="strip-4"></div>
     <div class="cta">
@@ -560,12 +468,12 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <a class="cta-btn" id="ctaBtn" href="#" target="_blank"></a>
       <a class="cta-sec" id="ctaSec" href="#" target="_blank"></a>
     </div>
-  </div><!-- /s-cta -->
+  </div>
 
-  <!-- ══ SECTION DIVIDER IMAGE ══ -->
-  <div class="divider-img-wrap" id="dividerImgWrap"></div>
+  <!-- SECTION DIVIDER IMAGE -->
+  <div class="divider-wrap" id="dividerWrap"></div>
 
-  <!-- ══ SECTION 5: THE SCIENCE ══ -->
+  <!-- ══ 5: THE PHILOSOPHY ══ -->
   <div class="section-anchor" id="s-argument">
     <div class="section-strip" id="strip-5"></div>
     <div class="arg">
@@ -577,7 +485,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <div id="argParas"></div>
       <div class="sources" id="sources"></div>
     </div>
-  </div><!-- /s-argument -->
+  </div>
 
   <!-- LOGO BOTTOM -->
   <div class="logo-bottom">
@@ -588,78 +496,77 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
   <!-- FOOTER -->
   <div class="pgfoot" id="pgfoot"></div>
 
-</div><!-- end .pw -->
+</div>
 
-<!-- html2canvas for save-as-image -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <script>
 const CF=999, WEEKS=20, SF=0.385;
+const CHECK=`<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L3.8 7.5L10 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-/* ── BUILD NAV ── */
+/* ── calculations ── */
+const getGrocery=()=>parseInt(document.getElementById('weeklySlider').value)*WEEKS;
+const getAS=a=>a.annual*SF*(a.pct/100);
+const getFullCost=()=>getGrocery()+CONFIG.addons.filter(a=>a.on).reduce((s,a)=>s+getAS(a),0);
+const getLiveNumber=()=>{
+  const diff=getFullCost()-CF;
+  return {
+    isSaving: diff>0,
+    perWk: Math.abs(diff/WEEKS),
+    formatted: '$'+Math.abs(diff/WEEKS).toFixed(2)+'/wk'
+  };
+};
+
+/* ── nav ── */
 function buildNav(){
   const nav=document.getElementById('sideNav');
   const mob=document.getElementById('mobileNav');
   CONFIG.sections.forEach(s=>{
-    // sidebar
     const a=document.createElement('a');
-    a.href='#'+s.id; a.className='snav-item'; a.dataset.section=s.id;
+    a.href='#'+s.id; a.className='snav-item'; a.dataset.sid=s.id;
     a.innerHTML=`<div class="snav-bar" style="background:${s.color}"></div><div><span class="snav-num">${s.num}</span> <span class="snav-label" style="color:${s.color}">${s.label}</span></div>`;
     nav.appendChild(a);
-    // mobile seg
     const m=document.createElement('div');
-    m.className='mob-seg'; m.dataset.section=s.id;
-    m.style.background=s.color;
+    m.className='mob-seg'; m.dataset.sid=s.id; m.style.background=s.color;
     mob.appendChild(m);
   });
-  // scroll spy
-  const observer=new IntersectionObserver(entries=>{
+  const obs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
         const id=e.target.id;
-        document.querySelectorAll('.snav-item').forEach(el=>el.classList.toggle('active',el.dataset.section===id));
-        document.querySelectorAll('.mob-seg').forEach(el=>el.classList.toggle('active',el.dataset.section===id));
+        document.querySelectorAll('.snav-item').forEach(el=>el.classList.toggle('active',el.dataset.sid===id));
+        document.querySelectorAll('.mob-seg').forEach(el=>el.classList.toggle('active',el.dataset.sid===id));
       }
     });
   },{threshold:0.25});
-  CONFIG.sections.forEach(s=>{
-    const el=document.getElementById(s.id);
-    if(el) observer.observe(el);
-  });
+  CONFIG.sections.forEach(s=>{const el=document.getElementById(s.id);if(el)obs.observe(el);});
 }
 
-/* ── BUILD SECTION STRIPS ── */
+/* ── section strips ── */
 function buildStrips(){
   CONFIG.sections.forEach(s=>{
     const el=document.getElementById('strip-'+s.num);
     if(!el)return;
-    el.innerHTML=`<div class="strip-bar" style="background:${s.color}"></div><div class="strip-num" style="color:${s.color}">${String(s.num).padStart(2,'0')}</div><div><div class="strip-label">${s.label}</div></div>`;
+    el.innerHTML=`<div class="strip-bar" style="background:${s.color}"></div><div class="strip-num" style="color:${s.color}">${String(s.num).padStart(2,'0')}</div><div><div class="strip-label" style="color:${s.color}">${s.label}</div></div>`;
   });
 }
 
-/* ── BUILD HERO ── */
+/* ── images ── */
 function buildHero(){
-  const wrap=document.getElementById('heroWrap');
+  const w=document.getElementById('heroWrap');
   const img=document.createElement('img');
   img.className='hero-img'; img.alt=CONFIG.heroImageAlt; img.src=CONFIG.heroImageUrl;
-  img.onerror=()=>{
-    wrap.innerHTML=`<div class="hero-img-placeholder"><span>${CONFIG.heroImageAlt}</span></div>`;
-  };
-  wrap.appendChild(img);
+  img.onerror=()=>{w.innerHTML=`<div class="hero-placeholder"><span>${CONFIG.heroImageAlt}</span></div>`;};
+  w.appendChild(img);
 }
-
-/* ── BUILD DIVIDER IMAGE ── */
-function buildDividerImg(){
-  const wrap=document.getElementById('dividerImgWrap');
+function buildDivider(){
+  const w=document.getElementById('dividerWrap');
   const img=document.createElement('img');
   img.className='divider-img'; img.alt=CONFIG.sectionImageAlt; img.src=CONFIG.sectionImageUrl;
-  img.onerror=()=>{
-    wrap.innerHTML=`<div class="divider-img-placeholder"><span>${CONFIG.sectionImageAlt}</span></div>`;
-  };
-  wrap.appendChild(img);
+  img.onerror=()=>{w.innerHTML=`<div class="divider-placeholder"><span>${CONFIG.sectionImageAlt}</span></div>`;};
+  w.appendChild(img);
 }
 
-/* ── RENDER CONFIG TEXT ── */
+/* ── render CONFIG text ── */
 function renderText(){
   document.getElementById('eyebrow').innerHTML=CONFIG.eyebrow;
   document.getElementById('headline').innerHTML=CONFIG.headline;
@@ -682,26 +589,39 @@ function renderText(){
   document.getElementById('argHead').textContent=CONFIG.argumentHeadline;
   document.getElementById('fQuote').textContent='\u201C'+CONFIG.fukuokaQuote+'\u201D';
   document.getElementById('fAttrib').innerHTML='&mdash; '+CONFIG.fukuokaAttrib;
-  const ap=document.getElementById('argParas');
-  CONFIG.argumentParagraphs.forEach(p=>{const el=document.createElement('p');el.innerHTML=p;ap.appendChild(el);});
+
+  // argument paragraphs — inject live number token on first render
+  renderArgParas();
+
   document.getElementById('sources').innerHTML=CONFIG.sourcesHTML;
   document.getElementById('pgfoot').innerHTML=CONFIG.footerHTML;
 
-  // logos
   const lb=document.getElementById('logoBottom');
   lb.src=CONFIG.logoUrl; lb.alt=CONFIG.logoAlt;
   lb.onerror=()=>{lb.style.display='none';const fb=document.getElementById('logoFbB');fb.textContent=CONFIG.logoFallback;fb.style.display='block';};
 }
 
-/* ── BUILD TOGGLES ── */
-const CHECK_SVG=`<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L3.8 7.5L10 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+function renderArgParas(){
+  const container=document.getElementById('argParas');
+  container.innerHTML='';
+  const live=getLiveNumber();
+  const label=live.isSaving
+    ? '<strong>weekly saving of '+live.formatted+'</strong>'
+    : '<strong>weekly premium of '+live.formatted+'</strong>';
+  CONFIG.argumentParagraphs.forEach(p=>{
+    const el=document.createElement('p');
+    el.innerHTML=p.replace(/\{\{WEEKLY_NUMBER\}\}/g,label);
+    container.appendChild(el);
+  });
+}
 
+/* ── toggles ── */
 function buildToggles(){
   const grid=document.getElementById('togGrid');
   CONFIG.addons.forEach(a=>{
     const d=document.createElement('div');
     d.className='ti'+(a.on?' on':'');
-    d.innerHTML=`<div class="tchk">${CHECK_SVG}</div><div style="flex:1"><div class="tn">${a.name}</div><div class="td">${a.detail}</div></div><div class="ta" id="ta-${a.id}">$${getAS(a).toFixed(2)}</div>`;
+    d.innerHTML=`<div class="tchk">${CHECK}</div><div style="flex:1"><div class="tn">${a.name}</div><div class="td">${a.detail}</div></div><div class="ta" id="ta-${a.id}">$${getAS(a).toFixed(2)}</div>`;
     d.onclick=()=>{a.on=!a.on;d.classList.toggle('on',a.on);update();};
     grid.appendChild(d);
   });
@@ -709,21 +629,18 @@ function buildToggles(){
   const qgrid=document.getElementById('qualGrid');
   CONFIG.qualToggles.forEach(q=>{
     const d=document.createElement('div');
-    d.className='ti'+(q.locked?'locked-on':(q.on?' on':''));
-    const badge=q.locked?`<span class="lock-badge">always included</span>`:'';
-    d.innerHTML=`<div class="tchk">${CHECK_SVG}</div><div style="flex:1"><div class="tn">${q.name}</div><div class="td">${q.detail}</div>${badge}</div><div class="ta qualitative">not<br>priced</div>`;
-    if(!q.locked){
+    const isLocked=q.locked;
+    d.className='ti on'+(isLocked?' ti-locked':'');
+    const badge=isLocked?`<span class="lock-badge">always included</span>`:'';
+    d.innerHTML=`<div class="tchk">${CHECK}</div><div style="flex:1"><div class="tn">${q.name}</div><div class="td">${q.detail}</div>${badge}</div><div class="ta qual">not<br>priced</div>`;
+    if(!isLocked){
       d.onclick=()=>{q.on=!q.on;d.classList.toggle('on',q.on);};
     }
     qgrid.appendChild(d);
   });
 }
 
-/* ── CALCULATIONS ── */
-const getGrocery=()=>parseInt(document.getElementById('weeklySlider').value)*WEEKS;
-const getAS=a=>a.annual*SF*(a.pct/100);
-const getFullCost=()=>getGrocery()+CONFIG.addons.filter(a=>a.on).reduce((s,a)=>s+getAS(a),0);
-
+/* ── update ── */
 function updateBars(){
   const gr=getGrocery(),full=getFullCost();
   const max=Math.max(CF,gr,full)*1.1;
@@ -734,22 +651,20 @@ function updateBars(){
 }
 
 function updateNumber(){
-  const full=getFullCost(), diff=full-CF;
+  const live=getLiveNumber();
   const numEl=document.getElementById('theNum');
   const lblEl=document.getElementById('nrLabel');
   const descEl=document.getElementById('nrDesc');
   const latteEl=document.getElementById('nrLatte');
-  const perWk=Math.abs(diff/WEEKS);
-  numEl.textContent='$'+perWk.toFixed(2)+'/wk';
 
-  if(diff>0){
-    // conventional full-cost > CF → CF saves you money
+  numEl.textContent=live.formatted;
+
+  if(live.isSaving){
     numEl.classList.add('saving');
     lblEl.textContent=CONFIG.numberLabelSaving;
     descEl.innerHTML=CONFIG.descSaving;
     latteEl.classList.add('hidden');
   } else {
-    // CF costs more
     numEl.classList.remove('saving');
     lblEl.textContent=CONFIG.numberLabelPremium;
     const rawPrem=(CF-getGrocery())/WEEKS;
@@ -792,49 +707,45 @@ function update(){
     const el=document.getElementById('ta-'+a.id);
     if(el) el.textContent=a.on?'$'+getAS(a).toFixed(2):'—';
   });
-  updateNumber(); updateBars(); buildTable();
+  updateNumber();
+  updateBars();
+  buildTable();
+  renderArgParas(); // re-inject live number into philosophy text
 }
 
-/* ── SHARE FUNCTIONS ── */
+/* ── share ── */
 function openFBShare(){
-  const url='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(CONFIG.shareUrl)+'&quote='+encodeURIComponent(CONFIG.shareText);
-  window.open(url,'_blank','width=600,height=500');
+  window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(CONFIG.shareUrl)+'&quote='+encodeURIComponent(CONFIG.shareText),'_blank','width=600,height=500');
   return false;
 }
-
 function saveAsImage(){
   const btn=document.getElementById('saveImgBtn');
+  const orig=btn.innerHTML;
   btn.textContent='Saving...';
-  const card=document.getElementById('resultsCard');
-  html2canvas(card,{
-    backgroundColor:'#F7F4EE',
-    scale:2,
-    useCORS:true,
+  html2canvas(document.getElementById('resultsCard'),{
+    backgroundColor:'#F7F4EE',scale:2,useCORS:true,
     ignoreElements:el=>el.classList.contains('share-bar')
   }).then(canvas=>{
-    const link=document.createElement('a');
-    link.download='crooked-farmz-real-price.png';
-    link.href=canvas.toDataURL('image/png');
-    link.click();
-    btn.innerHTML=`<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3.5 6l3 3 3-3M1 10.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as image`;
-  }).catch(()=>{
-    btn.innerHTML=`<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3.5 6l3 3 3-3M1 10.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as image`;
-  });
+    const a=document.createElement('a');
+    a.download='crooked-farmz-real-price.png';
+    a.href=canvas.toDataURL('image/png');
+    a.click();
+    btn.innerHTML=orig;
+  }).catch(()=>{ btn.innerHTML=orig; });
 }
 
-/* ── BOOT ── */
+/* ── boot ── */
 function boot(){
   buildNav();
   buildStrips();
   buildHero();
-  buildDividerImg();
+  buildDivider();
   renderText();
   buildToggles();
   document.getElementById('weeklySlider').addEventListener('input',update);
   update();
   setTimeout(updateBars,150);
 }
-
 boot();
 </script>
 </body>
